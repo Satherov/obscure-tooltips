@@ -1,6 +1,6 @@
 {
-  "rarity.common.name": "Común",
-  "rarity.uncommon.name": "Poco común",
-  "rarity.rare.name": "Raro",
-  "rarity.epic.name": "Épico"
+  "rarity.common": "Común",
+  "rarity.uncommon": "Poco común",
+  "rarity.rare": "Raro",
+  "rarity.epic": "Épico"
 }
