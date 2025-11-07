@@ -1,19 +1,18 @@
 package dev.obscuria.tooltips.client.element.effect;
 
 import com.mojang.serialization.Codec;
+import dev.obscuria.fragmentum.registry.BootstrapContext;
 import dev.obscuria.tooltips.client.renderer.TooltipContext;
-import dev.obscuria.tooltips.registry.TooltipsRegistries;
+import dev.obscuria.tooltips.content.registry.TooltipRegistries;
 import net.minecraft.client.gui.GuiGraphics;
 
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public interface TooltipEffect {
 
-    Codec<TooltipEffect> DIRECT_CODEC = TooltipsRegistries.TOOLTIP_EFFECT_TYPE.byNameCodec().dispatch(TooltipEffect::codec, Function.identity());
-    Codec<TooltipEffect> CODEC = TooltipsRegistries.Resource.TOOLTIP_EFFECT.byNameCodec();
+    Codec<TooltipEffect> DIRECT_CODEC = TooltipRegistries.TOOLTIP_EFFECT_TYPE.byNameCodec().dispatch(TooltipEffect::codec, Function.identity());
+    Codec<TooltipEffect> CODEC = TooltipRegistries.Resource.TOOLTIP_EFFECT.byNameCodec();
 
     Codec<? extends TooltipEffect> codec();
 
@@ -25,11 +24,11 @@ public interface TooltipEffect {
 
     default void renderFront(GuiGraphics graphics, TooltipContext context, int x, int y, int width, int height) {}
 
-    static void bootstrap(BiConsumer<String, Supplier<Codec<? extends TooltipEffect>>> registrar) {
+    static void bootstrap(BootstrapContext<Codec<? extends TooltipEffect>> context) {
 
-        registrar.accept("rim_light", () -> RimLightEffect.CODEC);
-        registrar.accept("ray_glow", () -> RayGlowEffect.CODEC);
-        registrar.accept("inward_particle", () -> InwardParticleEffect.CODEC);
-        registrar.accept("icon_particle", () -> IconParticleEffect.CODEC);
+        context.register("rim_light", () -> RimLightEffect.CODEC);
+        context.register("ray_glow", () -> RayGlowEffect.CODEC);
+        context.register("inward_particle", () -> InwardParticleEffect.CODEC);
+        context.register("icon_particle", () -> IconParticleEffect.CODEC);
     }
 }

@@ -1,6 +1,6 @@
 package dev.obscuria.tooltips.fabric.mixin;
 
-import dev.obscuria.tooltips.registry.TooltipsManager;
+import dev.obscuria.tooltips.content.registry.TooltipsManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.main.GameConfig;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;

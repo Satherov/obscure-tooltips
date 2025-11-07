@@ -7,8 +7,7 @@ import dev.obscuria.tooltips.client.element.frame.TooltipFrame;
 import dev.obscuria.tooltips.client.element.icon.TooltipIcon;
 import dev.obscuria.tooltips.client.element.panel.TooltipPanel;
 import dev.obscuria.tooltips.client.element.slot.TooltipSlot;
-import dev.obscuria.tooltips.registry.TooltipsRegistries;
-import org.apache.commons.compress.utils.Lists;
+import dev.obscuria.tooltips.content.registry.TooltipRegistries;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.ArrayList;
@@ -50,7 +49,7 @@ public record TooltipStyle(
 
     static {
         EMPTY = new TooltipStyle(Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), List.of());
-        CODEC = TooltipsRegistries.Resource.TOOLTIP_STYLE.byNameCodec();
+        CODEC = TooltipRegistries.Resource.TOOLTIP_STYLE.byNameCodec();
         DIRECT_CODEC = RecordCodecBuilder.create(codec -> codec.group(
                 TooltipPanel.CODEC.optionalFieldOf("panel").forGetter(TooltipStyle::panel),
                 TooltipFrame.CODEC.optionalFieldOf("frame").forGetter(TooltipStyle::frame),

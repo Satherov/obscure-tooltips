@@ -1,4 +1,4 @@
-package dev.obscuria.tooltips.registry;
+package dev.obscuria.tooltips.content.registry;
 
 import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;

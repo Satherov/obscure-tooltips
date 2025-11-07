@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.obscuria.tooltips.client.filter.ItemFilter;
 import dev.obscuria.tooltips.client.label.LabelProvider;
-import dev.obscuria.tooltips.registry.TooltipsRegistries;
+import dev.obscuria.tooltips.content.registry.TooltipRegistries;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -31,7 +31,7 @@ public record TooltipLabel(
     }
 
     public static @Nullable TooltipLabel findFor(ItemStack stack) {
-        for (var label : TooltipsRegistries.Resource.TOOLTIP_LABEL.listElements()) {
+        for (var label : TooltipRegistries.Resource.TOOLTIP_LABEL.listElements()) {
             if (!label.isFor(stack)) continue;
             return label;
         }

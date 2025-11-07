@@ -1,6 +1,9 @@
 package dev.obscuria.tooltips;
 
-import dev.obscuria.tooltips.registry.TooltipsRegistries;
+import dev.obscuria.fragmentum.client.FragmentumClientRegistry;
+import dev.obscuria.tooltips.client.ClientStackBuffer;
+import dev.obscuria.tooltips.content.StackBuffer;
+import dev.obscuria.tooltips.content.registry.TooltipRegistries;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +19,7 @@ public interface ObscureTooltips {
     }
 
     static void init() {
-        TooltipsRegistries.init();
+        TooltipRegistries.init();
+        FragmentumClientRegistry.registerTooltipComponent(StackBuffer.class, ClientStackBuffer::create);
     }
 }

@@ -3,7 +3,7 @@ package dev.obscuria.tooltips.client;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.obscuria.tooltips.client.filter.ItemFilter;
-import dev.obscuria.tooltips.registry.TooltipsRegistries;
+import dev.obscuria.tooltips.content.registry.TooltipRegistries;
 import net.minecraft.world.item.ItemStack;
 
 public record TooltipDefinition(
@@ -25,7 +25,7 @@ public record TooltipDefinition(
 
     public static TooltipStyle aggregateStyleFor(ItemStack stack) {
         var style = TooltipStyle.EMPTY;
-        for (var definition : TooltipsRegistries.Resource.TOOLTIP_DEFINITION.listElements()) {
+        for (var definition : TooltipRegistries.Resource.TOOLTIP_DEFINITION.listElements()) {
             if (!definition.isFor(stack)) continue;
             style = style.merge(definition.style);
         }

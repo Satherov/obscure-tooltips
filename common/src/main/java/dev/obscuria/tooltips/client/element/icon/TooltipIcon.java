@@ -2,19 +2,18 @@ package dev.obscuria.tooltips.client.element.icon;
 
 import com.mojang.math.Axis;
 import com.mojang.serialization.Codec;
+import dev.obscuria.fragmentum.registry.BootstrapContext;
 import dev.obscuria.tooltips.client.element.Transform;
 import dev.obscuria.tooltips.client.renderer.TooltipContext;
-import dev.obscuria.tooltips.registry.TooltipsRegistries;
+import dev.obscuria.tooltips.content.registry.TooltipRegistries;
 import net.minecraft.client.gui.GuiGraphics;
 
-import java.util.function.BiConsumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public interface TooltipIcon {
 
-    Codec<TooltipIcon> DIRECT_CODEC = TooltipsRegistries.TOOLTIP_ICON_TYPE.byNameCodec().dispatch(TooltipIcon::codec, Function.identity());
-    Codec<TooltipIcon> CODEC = TooltipsRegistries.Resource.TOOLTIP_ICON.byNameCodec();
+    Codec<TooltipIcon> DIRECT_CODEC = TooltipRegistries.TOOLTIP_ICON_TYPE.byNameCodec().dispatch(TooltipIcon::codec, Function.identity());
+    Codec<TooltipIcon> CODEC = TooltipRegistries.Resource.TOOLTIP_ICON.byNameCodec();
 
     Codec<? extends TooltipIcon> codec();
 
@@ -42,10 +41,11 @@ public interface TooltipIcon {
 
     default void applyRotation(GuiGraphics graphics, TooltipContext context, int x, int y) {}
 
-    static void bootstrap(BiConsumer<String, Supplier<Codec<? extends TooltipIcon>>> registrar) {
-        registrar.accept("static", () -> StaticIcon.CODEC);
-        registrar.accept("accent", () -> AccentIcon.CODEC);
-        registrar.accept("accent_spin", () -> AccentSpinIcon.CODEC);
-        registrar.accept("accent_burst", () -> AccentBurstIcon.CODEC);
+    static void bootstrap(BootstrapContext<Codec<? extends TooltipIcon>> context) {
+
+        context.register("static", () -> StaticIcon.CODEC);
+        context.register("accent", () -> AccentIcon.CODEC);
+        context.register("accent_spin", () -> AccentSpinIcon.CODEC);
+        context.register("accent_burst", () -> AccentBurstIcon.CODEC);
     }
 }

@@ -1,6 +1,7 @@
-package dev.obscuria.tooltips.registry;
+package dev.obscuria.tooltips.content.registry;
 
 import com.mojang.serialization.Codec;
+import dev.obscuria.fragmentum.registry.BootstrapContext;
 import dev.obscuria.fragmentum.registry.DelegatedRegistry;
 import dev.obscuria.fragmentum.registry.FragmentumRegistry;
 import dev.obscuria.fragmentum.registry.Registrar;
@@ -19,20 +20,18 @@ import dev.obscuria.tooltips.client.particle.TooltipParticle;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 
-import static dev.obscuria.tooltips.ObscureTooltips.key;
-
-public interface TooltipsRegistries {
+public interface TooltipRegistries {
 
     Registrar REGISTRAR = FragmentumRegistry.registrar(ObscureTooltips.MOD_ID);
 
-    DelegatedRegistry<Codec<? extends ItemFilter>> ITEM_FILTER_TYPE = REGISTRAR.createRegistry(Keys.ITEM_FILTER_TYPE);
-    DelegatedRegistry<Codec<? extends LabelProvider>> LABEL_PROVIDER_TYPE = REGISTRAR.createRegistry(Keys.LABEL_PROVIDER_TYPE);
-    DelegatedRegistry<Codec<? extends TooltipParticle>> TOOLTIP_PARTICLE_TYPE = REGISTRAR.createRegistry(Keys.TOOLTIP_PARTICLE_TYPE);
-    DelegatedRegistry<Codec<? extends TooltipPanel>> TOOLTIP_PANEL_TYPE = REGISTRAR.createRegistry(Keys.TOOLTIP_PANEL_TYPE);
-    DelegatedRegistry<Codec<? extends TooltipFrame>> TOOLTIP_FRAME_TYPE = REGISTRAR.createRegistry(Keys.TOOLTIP_FRAME_TYPE);
-    DelegatedRegistry<Codec<? extends TooltipSlot>> TOOLTIP_SLOT_TYPE = REGISTRAR.createRegistry(Keys.TOOLTIP_SLOT_TYPE);
-    DelegatedRegistry<Codec<? extends TooltipIcon>> TOOLTIP_ICON_TYPE = REGISTRAR.createRegistry(Keys.TOOLTIP_ICON_TYPE);
-    DelegatedRegistry<Codec<? extends TooltipEffect>> TOOLTIP_EFFECT_TYPE = REGISTRAR.createRegistry(Keys.TOOLTIP_EFFECT_TYPE);
+    DelegatedRegistry<Codec<? extends ItemFilter>> ITEM_FILTER_TYPE = REGISTRAR.createRegistry(Key.ITEM_FILTER_TYPE);
+    DelegatedRegistry<Codec<? extends LabelProvider>> LABEL_PROVIDER_TYPE = REGISTRAR.createRegistry(Key.LABEL_PROVIDER_TYPE);
+    DelegatedRegistry<Codec<? extends TooltipParticle>> TOOLTIP_PARTICLE_TYPE = REGISTRAR.createRegistry(Key.TOOLTIP_PARTICLE_TYPE);
+    DelegatedRegistry<Codec<? extends TooltipPanel>> TOOLTIP_PANEL_TYPE = REGISTRAR.createRegistry(Key.TOOLTIP_PANEL_TYPE);
+    DelegatedRegistry<Codec<? extends TooltipFrame>> TOOLTIP_FRAME_TYPE = REGISTRAR.createRegistry(Key.TOOLTIP_FRAME_TYPE);
+    DelegatedRegistry<Codec<? extends TooltipSlot>> TOOLTIP_SLOT_TYPE = REGISTRAR.createRegistry(Key.TOOLTIP_SLOT_TYPE);
+    DelegatedRegistry<Codec<? extends TooltipIcon>> TOOLTIP_ICON_TYPE = REGISTRAR.createRegistry(Key.TOOLTIP_ICON_TYPE);
+    DelegatedRegistry<Codec<? extends TooltipEffect>> TOOLTIP_EFFECT_TYPE = REGISTRAR.createRegistry(Key.TOOLTIP_EFFECT_TYPE);
 
     interface Resource {
 
@@ -46,7 +45,7 @@ public interface TooltipsRegistries {
         ResourceRegistry<TooltipLabel> TOOLTIP_LABEL = new ResourceRegistry.Ordered<>("label");
     }
 
-    interface Keys {
+    interface Key {
 
         ResourceKey<Registry<Codec<? extends ItemFilter>>> ITEM_FILTER_TYPE = create("item_filter_type");
         ResourceKey<Registry<Codec<? extends LabelProvider>>> LABEL_PROVIDER_TYPE = create("label_provider_type");
@@ -58,19 +57,19 @@ public interface TooltipsRegistries {
         ResourceKey<Registry<Codec<? extends TooltipEffect>>> TOOLTIP_EFFECT_TYPE = create("tooltip_effect_type");
 
         private static <T> ResourceKey<Registry<T>> create(String name) {
-            return ResourceKey.createRegistryKey(key(name));
+            return ResourceKey.createRegistryKey(ObscureTooltips.key(name));
         }
     }
 
     static void init() {
 
-        ItemFilter.bootstrap((name, codec) -> REGISTRAR.register(Keys.ITEM_FILTER_TYPE, key(name), codec));
-        LabelProvider.bootstrap((name, codec) -> REGISTRAR.register(Keys.LABEL_PROVIDER_TYPE, key(name), codec));
-        TooltipParticle.bootstrap((name, codec) -> REGISTRAR.register(Keys.TOOLTIP_PARTICLE_TYPE, key(name), codec));
-        TooltipPanel.bootstrap((name, codec) -> REGISTRAR.register(Keys.TOOLTIP_PANEL_TYPE, key(name), codec));
-        TooltipFrame.bootstrap((name, codec) -> REGISTRAR.register(Keys.TOOLTIP_FRAME_TYPE, key(name), codec));
-        TooltipSlot.bootstrap((name, codec) -> REGISTRAR.register(Keys.TOOLTIP_SLOT_TYPE, key(name), codec));
-        TooltipIcon.bootstrap((name, codec) -> REGISTRAR.register(Keys.TOOLTIP_ICON_TYPE, key(name), codec));
-        TooltipEffect.bootstrap((name, codec) -> REGISTRAR.register(Keys.TOOLTIP_EFFECT_TYPE, key(name), codec));
+        ItemFilter.bootstrap(BootstrapContext.create(REGISTRAR, Key.ITEM_FILTER_TYPE, ObscureTooltips::key));
+        LabelProvider.bootstrap(BootstrapContext.create(REGISTRAR, Key.LABEL_PROVIDER_TYPE, ObscureTooltips::key));
+        TooltipParticle.bootstrap(BootstrapContext.create(REGISTRAR, Key.TOOLTIP_PARTICLE_TYPE, ObscureTooltips::key));
+        TooltipPanel.bootstrap(BootstrapContext.create(REGISTRAR, Key.TOOLTIP_PANEL_TYPE, ObscureTooltips::key));
+        TooltipFrame.bootstrap(BootstrapContext.create(REGISTRAR, Key.TOOLTIP_FRAME_TYPE, ObscureTooltips::key));
+        TooltipSlot.bootstrap(BootstrapContext.create(REGISTRAR, Key.TOOLTIP_SLOT_TYPE, ObscureTooltips::key));
+        TooltipIcon.bootstrap(BootstrapContext.create(REGISTRAR, Key.TOOLTIP_ICON_TYPE, ObscureTooltips::key));
+        TooltipEffect.bootstrap(BootstrapContext.create(REGISTRAR, Key.TOOLTIP_EFFECT_TYPE, ObscureTooltips::key));
     }
 }

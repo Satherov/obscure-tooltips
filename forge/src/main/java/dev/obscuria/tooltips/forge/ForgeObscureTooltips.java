@@ -1,7 +1,7 @@
 package dev.obscuria.tooltips.forge;
 
 import dev.obscuria.tooltips.ObscureTooltips;
-import dev.obscuria.tooltips.registry.TooltipsManager;
+import dev.obscuria.tooltips.content.registry.TooltipsManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraftforge.fml.common.Mod;

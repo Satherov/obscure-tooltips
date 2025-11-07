@@ -1,33 +1,32 @@
 package dev.obscuria.tooltips.client.filter;
 
 import com.mojang.serialization.Codec;
-import dev.obscuria.tooltips.registry.TooltipsRegistries;
+import dev.obscuria.fragmentum.registry.BootstrapContext;
+import dev.obscuria.tooltips.content.registry.TooltipRegistries;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.function.BiConsumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public interface ItemFilter {
 
-    Codec<ItemFilter> CODEC = TooltipsRegistries.ITEM_FILTER_TYPE.byNameCodec().dispatch(ItemFilter::codec, Function.identity());
+    Codec<ItemFilter> CODEC = TooltipRegistries.ITEM_FILTER_TYPE.byNameCodec().dispatch(ItemFilter::codec, Function.identity());
 
     Codec<? extends ItemFilter> codec();
 
     boolean test(ItemStack stack);
 
-    static void bootstrap(BiConsumer<String, Supplier<Codec<? extends ItemFilter>>> registrar) {
+    static void bootstrap(BootstrapContext<Codec<? extends ItemFilter>> context) {
 
-        registrar.accept("always", () -> AlwaysFilter.CODEC);
-        registrar.accept("never", () -> NeverFilter.CODEC);
-        registrar.accept("all_of", () -> AllOfFilter.CODEC);
-        registrar.accept("any_of", () -> AnyOfFilter.CODEC);
-        registrar.accept("none_of", () -> NoneOfFilter.CODEC);
-        registrar.accept("item", () -> ItemOrTagFilter.CODEC);
-        registrar.accept("mod", () -> ModFilter.CODEC);
-        registrar.accept("enchantment", () -> EnchantmentFilter.CODEC);
-        registrar.accept("rarity", () -> RarityFilter.CODEC);
-        registrar.accept("nbt", () -> NbtFilter.CODEC);
-        registrar.accept("property", () -> PropertyFilter.CODEC);
+        context.register("always", () -> AlwaysFilter.CODEC);
+        context.register("never", () -> NeverFilter.CODEC);
+        context.register("all_of", () -> AllOfFilter.CODEC);
+        context.register("any_of", () -> AnyOfFilter.CODEC);
+        context.register("none_of", () -> NoneOfFilter.CODEC);
+        context.register("item", () -> ItemOrTagFilter.CODEC);
+        context.register("mod", () -> ModFilter.CODEC);
+        context.register("enchantment", () -> EnchantmentFilter.CODEC);
+        context.register("rarity", () -> RarityFilter.CODEC);
+        context.register("nbt", () -> NbtFilter.CODEC);
+        context.register("property", () -> PropertyFilter.CODEC);
     }
 }

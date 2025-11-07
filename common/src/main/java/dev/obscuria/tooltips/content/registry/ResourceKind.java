@@ -1,4 +1,4 @@
-package dev.obscuria.tooltips.registry;
+package dev.obscuria.tooltips.content.registry;
 
 import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
@@ -16,14 +16,14 @@ import net.minecraft.resources.ResourceLocation;
 
 public enum ResourceKind {
 
-    PANEL(new Spec<>("panel", "element/panel", TooltipPanel.DIRECT_CODEC, TooltipsRegistries.Resource.TOOLTIP_PANEL)),
-    FRAME(new Spec<>("frame", "element/frame", TooltipFrame.DIRECT_CODEC, TooltipsRegistries.Resource.TOOLTIP_FRAME)),
-    SLOT(new Spec<>("slot", "element/slot", TooltipSlot.DIRECT_CODEC, TooltipsRegistries.Resource.TOOLTIP_SLOT)),
-    ICON(new Spec<>("icon", "element/icon", TooltipIcon.DIRECT_CODEC, TooltipsRegistries.Resource.TOOLTIP_ICON)),
-    EFFECT(new Spec<>("effect", "element/effect", TooltipEffect.DIRECT_CODEC, TooltipsRegistries.Resource.TOOLTIP_EFFECT)),
-    STYLE(new Spec<>("style", "style", TooltipStyle.DIRECT_CODEC, TooltipsRegistries.Resource.TOOLTIP_STYLE)),
-    DEFINITION(new Spec<>("definition", "definition", TooltipDefinition.DIRECT_CODEC, TooltipsRegistries.Resource.TOOLTIP_DEFINITION)),
-    LABEL(new Spec<>("label", "label", TooltipLabel.DIRECT_CODEC, TooltipsRegistries.Resource.TOOLTIP_LABEL));
+    PANEL(new Spec<>("panel", "element/panel", TooltipPanel.DIRECT_CODEC, TooltipRegistries.Resource.TOOLTIP_PANEL)),
+    FRAME(new Spec<>("frame", "element/frame", TooltipFrame.DIRECT_CODEC, TooltipRegistries.Resource.TOOLTIP_FRAME)),
+    SLOT(new Spec<>("slot", "element/slot", TooltipSlot.DIRECT_CODEC, TooltipRegistries.Resource.TOOLTIP_SLOT)),
+    ICON(new Spec<>("icon", "element/icon", TooltipIcon.DIRECT_CODEC, TooltipRegistries.Resource.TOOLTIP_ICON)),
+    EFFECT(new Spec<>("effect", "element/effect", TooltipEffect.DIRECT_CODEC, TooltipRegistries.Resource.TOOLTIP_EFFECT)),
+    STYLE(new Spec<>("style", "style", TooltipStyle.DIRECT_CODEC, TooltipRegistries.Resource.TOOLTIP_STYLE)),
+    DEFINITION(new Spec<>("definition", "definition", TooltipDefinition.DIRECT_CODEC, TooltipRegistries.Resource.TOOLTIP_DEFINITION)),
+    LABEL(new Spec<>("label", "label", TooltipLabel.DIRECT_CODEC, TooltipRegistries.Resource.TOOLTIP_LABEL));
 
     public final Spec<?> spec;
 

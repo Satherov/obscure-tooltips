@@ -1,5 +1,7 @@
 package dev.obscuria.tooltips.client.renderer;
 
+import dev.obscuria.fragmentum.client.ClientGroupTooltip;
+import dev.obscuria.tooltips.client.ClientStackBuffer;
 import dev.obscuria.tooltips.client.TooltipDefinition;
 import dev.obscuria.tooltips.client.TooltipLabel;
 import net.minecraft.client.gui.Font;
@@ -7,7 +9,9 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipPositioner;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class TooltipRenderer {
@@ -16,22 +20,14 @@ public final class TooltipRenderer {
     private static ItemStack actualStack = ItemStack.EMPTY;
     private static TooltipContext context = new TooltipContext();
 
-    public static void perform(ItemStack stack) {
-        actualStack = stack;
-        if (ItemStack.isSameItemSameTags(lastStack, actualStack)) return;
-        context = new TooltipContext(
-                actualStack,
-                TooltipDefinition.aggregateStyleFor(stack),
-                TooltipLabel.findFor(stack));
-    }
-
     public static boolean render(
             GuiGraphics graphics, Font font, List<ClientTooltipComponent> components,
             int mouseX, int mouseY, ClientTooltipPositioner positioner) {
 
-        if (actualStack.isEmpty()) return false;
         if (components.isEmpty()) return false;
+        if (!perform(components)) return false;
 
+        components = new ArrayList<>(components);
         final var title = components.remove(0);
         final var label = context.label() != null
                 ? context.label().create(actualStack)
@@ -67,6 +63,19 @@ public final class TooltipRenderer {
         lastStack = actualStack;
         actualStack = ItemStack.EMPTY;
         context.removeExpiredParticles();
+        return true;
+    }
+
+    private static boolean perform(List<ClientTooltipComponent> components) {
+        final @Nullable var buffer = ClientGroupTooltip.findFirst(components, ClientStackBuffer.class);
+        if (buffer == null) return false;
+
+        actualStack = buffer.stack();
+        if (!ItemStack.isSameItemSameTags(lastStack, actualStack)) {
+            final var style = TooltipDefinition.aggregateStyleFor(actualStack);
+            final @Nullable var label = TooltipLabel.findFor(actualStack);
+            context = new TooltipContext(actualStack, style, label);
+        }
         return true;
     }
 
