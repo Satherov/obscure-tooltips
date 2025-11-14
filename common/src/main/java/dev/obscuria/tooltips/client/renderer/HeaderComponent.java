@@ -2,7 +2,7 @@ package dev.obscuria.tooltips.client.renderer;
 
 import dev.obscuria.fragmentum.util.color.ARGB;
 import dev.obscuria.fragmentum.util.color.Colors;
-import dev.obscuria.tooltips.client.particle.GraphicUtils;
+import dev.obscuria.tooltips.client.tooltip.particle.GraphicUtils;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
@@ -12,7 +12,7 @@ import org.joml.Matrix4f;
 public record HeaderComponent(
         int minWidth,
         boolean drawDelimiter,
-        TooltipContext context,
+        TooltipState state,
         ClientTooltipComponent title,
         ClientTooltipComponent label
 ) implements ClientTooltipComponent {
@@ -38,9 +38,9 @@ public record HeaderComponent(
 
     @Override
     public void renderImage(Font font, int x, int y, GuiGraphics graphics) {
-        context.style().slot().ifPresent(it -> it.render(graphics, x, y, 20, 20));
-        context.style().effects().forEach(it -> it.renderIcon(graphics, context, x + 10, y + 10));
-        context.style().icon().ifPresent(it -> it.render(graphics, context, x + 10, y + 10));
+        state.style.slot().ifPresent(it -> it.render(graphics, x, y, 20, 20));
+        state.style.effects().forEach(it -> it.renderIcon(state, graphics, x + 10, y + 10));
+        state.style.icon().ifPresent(it -> it.render(state, graphics, x + 10, y + 10));
 
         if (!drawDelimiter) return;
         final var length = getWidth(font) / 2;

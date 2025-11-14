@@ -1,0 +1,2 @@
+- Reimplemented the 3D armor and tool preview system.
+- Added a new config file with several useful global options.

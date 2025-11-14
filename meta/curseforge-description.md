@@ -6,13 +6,22 @@
   <a href="https://imgur.com/gallery/obscure-tooltips-media-kit-VPpfjxP" target="_blank"><img alt="Media Kit" src="https://img.shields.io/badge/Get%20Media%20Kit-5c4521?style=for-the-badge&logo=imgur&labelColor=251C20&logoColor=white"></a>
 </p>
 
-## <p style="text-align:center">Obscure Tooltips is a client-side mod that enhances item tooltips with animated visual and particle effects, making rarer items more vibrant and eye-catching. Everything is fully customizable via resource packs, with detailed documentation available for creating your own styles.</p>
+<h2 style="text-align:center">Obscure Tooltips is a client-side mod that enhances item tooltips with animated visual and particle effects, making rarer items more vibrant and eye-catching.</h2>
 
 <br>
 
-# <p style="text-align:center">How to Start?</p>
+<p style="text-align:center"><img width=90% src=https://i.imgur.com/2Rn2RuE.png></p>
 
-Just install the mod and launch the game! The built-in resource pack animates item tooltips based on their rarity, enchantments, or curses. If you want to customize and expand the styles for your own modpack, [**check out the Wiki**](https://obscurialithium.github.io/obscure-tooltips).
+- ✨ <span style="color:#CED4D9;">**Animated Tooltips**</span> – Items feel alive with smooth animations, glowing borders, and subtle particle effects.
+- 💎 <span style="color:#CED4D9;">**Rarity-Based Styles**</span> – The higher the rarity, the flashier the look.
+- 🔮 <span style="color:#CED4D9;">**Enchantments & Curses**</span> – Tooltips change appearance to reflect their magic.
+- 🎨 <span style="color:#CED4D9;">**Built-in Resource Pack**</span> – Comes ready out of the box with stylish effects, no setup required.
+- ⚙️ <span style="color:#CED4D9;">**Fully Customizable**</span> – Create your own tooltip styles with resource packs.
+- 🧩 <span style="color:#CED4D9;">**Modpack Friendly**</span> – Designed to integrate seamlessly into any pack.
+- 🌿 <span style="color:#CED4D9;">**Lightweight & Optimized**</span> – Minimal performance impact, works great even on large modpacks.
+- 📘 <span style="color:#CED4D9;">**Extensive Documentation**</span> – [Step-by-step guides](https://obscurialithium.github.io/obscure-tooltips) and examples to help you build tooltip styles in minutes.
+
+### Want your tooltips to look like arcane scrolls, neon cyberpunk frames, or cursed bloodstains? With Obscure Tooltips, you decide.
 
 <img width=100% src=https://i.imgur.com/i7U9Xmk.gif>
 <p style="text-align:center">
@@ -22,22 +31,7 @@ Just install the mod and launch the game! The built-in resource pack animates it
 
 <br>
 
-# <p style="text-align:center">Features ✨</p>
-
-- <span style="color:#CED4D9;">**Animated Tooltips**</span> – Items feel alive with smooth animations, glowing borders, and subtle particle effects.
-- <span style="color:#CED4D9;">**Rarity-Based Styles**</span> – The higher the rarity, the flashier the look. From simple commons to dazzling legendaries.
-- <span style="color:#CED4D9;">**Enchantments & Curses**</span> – Tooltips react dynamically to enchantments and curses, making them instantly recognizable.
-- <span style="color:#CED4D9;">**Built-in Resource Pack**</span> – Comes ready out of the box with stylish effects, no setup required.
-- <span style="color:#CED4D9;">**Fully Customizable**</span> – Create your own tooltip themes with resource packs. Every color, animation, and particle can be changed.
-- <span style="color:#CED4D9;">**Modpack Friendly**</span> – Designed to integrate seamlessly into any pack. Add unique flair to your items without touching the code.
-- <span style="color:#CED4D9;">**Lightweight & Optimized**</span> – Minimal performance impact, works great even on large modpacks.
-- <span style="color:#CED4D9;">**Extensive Documentation**</span> – [Step-by-step guides](https://obscurialithium.github.io/obscure-tooltips) and examples to help you build tooltip styles in minutes.
-
-### Want your tooltips to look like arcane scrolls, neon cyberpunk frames, or cursed bloodstains? With Obscure Tooltips, you decide.
-
-<br>
-
-# <p style="text-align:center">Explore More by Obscuria</p>
+<p style="text-align:center"><img width=90% src=https://i.imgur.com/5ZBaOT4.png></p>
 
 <p style="text-align:center">
   <a href="https://www.curseforge.com/minecraft/mc-mods/ob-aquamirae"><img style="display: inline;" src="https://i.imgur.com/AWVa1rL.png" width="45%" /></a> 

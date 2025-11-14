@@ -1,7 +1,7 @@
 package dev.obscuria.tooltips.client.renderer;
 
 import com.mojang.math.Axis;
-import dev.obscuria.tooltips.client.particle.TooltipParticle;
+import dev.obscuria.tooltips.client.tooltip.particle.TooltipParticle;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
@@ -17,38 +17,38 @@ public abstract class ParticleData {
 
     public ParticleStatus status = ParticleStatus.ALIVE;
 
-    public void render(GuiGraphics graphics, TooltipContext context, TooltipParticle particle, int x, int y) {
+    public void render(GuiGraphics graphics, TooltipState state, TooltipParticle particle, int x, int y) {
 
-        final var progress = computeProgress(context);
-        final var translation = computeTranslation(context, progress);
-        final var scale = computeScale(context, progress);
-        final var rotation = computeRotation(context, progress);
+        final var progress = computeProgress(state);
+        final var translation = computeTranslation(state, progress);
+        final var scale = computeScale(state, progress);
+        final var rotation = computeRotation(state, progress);
 
         graphics.pose().pushPose();
         graphics.pose().translate(x + origin.x + translation.x, y + origin.y + translation.y, 0f);
         graphics.pose().scale(scale, scale, scale);
         graphics.pose().mulPose(Axis.ZP.rotation(rotation));
-        particle.render(graphics, context, this);
+        particle.render(graphics, state, this);
         graphics.pose().popPose();
 
         status = progress <= 1f ? ParticleStatus.ALIVE : ParticleStatus.EXPIRED;
     }
 
-    public float computeProgress(TooltipContext context) {
-        return Mth.clamp(context.timeInSeconds() - startTime, 0f, 1f);
+    public float computeProgress(TooltipState state) {
+        return Mth.clamp(state.timeInSeconds() - startTime, 0f, 1f);
     }
 
-    public Vec2 computeTranslation(TooltipContext context, float progress) {
+    public Vec2 computeTranslation(TooltipState state, float progress) {
         return new Vec2(
                 (destination.x - origin.x) * progress,
                 (destination.y - origin.y) * progress);
     }
 
-    public float computeScale(TooltipContext context, float progress) {
+    public float computeScale(TooltipState state, float progress) {
         return 1f;
     }
 
-    public float computeRotation(TooltipContext context, float progress) {
+    public float computeRotation(TooltipState state, float progress) {
         return 0f;
     }
 }

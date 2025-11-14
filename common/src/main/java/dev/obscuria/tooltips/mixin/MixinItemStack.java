@@ -1,7 +1,7 @@
 package dev.obscuria.tooltips.mixin;
 
 import dev.obscuria.fragmentum.world.tooltip.GroupTooltip;
-import dev.obscuria.tooltips.content.StackBuffer;
+import dev.obscuria.tooltips.client.StackBuffer;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;

@@ -1,14 +1,19 @@
 package dev.obscuria.tooltips.client.renderer;
 
 import dev.obscuria.fragmentum.client.ClientGroupTooltip;
-import dev.obscuria.tooltips.client.ClientStackBuffer;
-import dev.obscuria.tooltips.client.TooltipDefinition;
-import dev.obscuria.tooltips.client.TooltipLabel;
+import dev.obscuria.tooltips.client.StackBuffer;
+import dev.obscuria.tooltips.client.tooltip.layout.ArmorPreviewLayout;
+import dev.obscuria.tooltips.client.tooltip.layout.DefaultLayout;
+import dev.obscuria.tooltips.client.tooltip.layout.ToolPreviewLayout;
+import dev.obscuria.tooltips.client.tooltip.layout.TooltipLayout;
+import dev.obscuria.tooltips.config.TooltipConfig;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipPositioner;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TieredItem;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -18,82 +23,54 @@ public final class TooltipRenderer {
 
     private static ItemStack lastStack = ItemStack.EMPTY;
     private static ItemStack actualStack = ItemStack.EMPTY;
-    private static TooltipContext context = new TooltipContext();
+    private static TooltipLayout<?> layout = new DefaultLayout();
+    private static TooltipState state = new EmptyState();
 
     public static boolean render(
             GuiGraphics graphics, Font font, List<ClientTooltipComponent> components,
             int mouseX, int mouseY, ClientTooltipPositioner positioner) {
 
+        if (!TooltipConfig.client.enabled) return false;
         if (components.isEmpty()) return false;
         if (!perform(components)) return false;
 
         components = new ArrayList<>(components);
-        final var title = components.remove(0);
-        final var label = context.label() != null
-                ? context.label().create(actualStack)
-                : BlankComponent.INSTANCE;
-        final var minWidth = widthOf(components, font);
-        components.add(0, new HeaderComponent(minWidth, !components.isEmpty(), context, title, label));
-
-        final var width = widthOf(components, font);
-        final var height = heightOf(components) - 2;
-        final var pos = positioner.positionTooltip(graphics.guiWidth(), graphics.guiHeight(), mouseX, mouseY, width, height);
-
-        graphics.pose().pushPose();
-        graphics.pose().translate(0f, 0f, 400f);
-
-        graphics.flush();
-        context.style().panel().ifPresent(it -> it.render(graphics, pos.x(), pos.y(), width, height));
-        context.style().effects().forEach(it -> it.renderBack(graphics, context, pos.x(), pos.y(), width, height));
-        graphics.pose().pushPose();
-        graphics.pose().translate(0f, 0f, 2f);
-        context.style().frame().ifPresent(it -> it.render(graphics, pos.x(), pos.y(), width, height));
-        graphics.pose().popPose();
-        graphics.flush();
-
-        var componentY = pos.y();
-        for (var component : components) {
-            component.renderText(font, pos.x(), componentY, graphics.pose().last().pose(), graphics.bufferSource());
-            component.renderImage(font, pos.x(), componentY, graphics);
-            componentY += component.getHeight();
-        }
-
-        graphics.pose().popPose();
+        layout.renderRaw(state, graphics, components, mouseX, mouseY, positioner, font);
 
         lastStack = actualStack;
         actualStack = ItemStack.EMPTY;
-        context.removeExpiredParticles();
+        state.removeExpiredParticles();
         return true;
     }
 
     private static boolean perform(List<ClientTooltipComponent> components) {
-        final @Nullable var buffer = ClientGroupTooltip.findFirst(components, ClientStackBuffer.class);
+        final @Nullable var buffer = ClientGroupTooltip.findFirst(components, StackBuffer.class);
         if (buffer == null) return false;
-
         actualStack = buffer.stack();
-        if (!ItemStack.isSameItemSameTags(lastStack, actualStack)) {
-            final var style = TooltipDefinition.aggregateStyleFor(actualStack);
-            final @Nullable var label = TooltipLabel.findFor(actualStack);
-            context = new TooltipContext(actualStack, style, label);
-        }
+        if (ItemStack.isSameItemSameTags(lastStack, actualStack)) return true;
+        layout = shouldShowArmorPreview(actualStack) ? ArmorPreviewLayout.INSTANCE
+                : shouldShowToolPreview(actualStack) ? ToolPreviewLayout.INSTANCE
+                : DefaultLayout.INSTANCE;
+        state = layout.makeTooltipState(actualStack);
         return true;
     }
 
-    private static int widthOf(List<ClientTooltipComponent> components, Font font) {
-        int max = 0;
-        for (var component : components) {
-            final var width = component.getWidth(font);
-            if (width <= max) continue;
-            max = width;
-        }
-        return max;
+    private static boolean shouldShowArmorPreview(ItemStack stack) {
+        if (!TooltipConfig.client.armorPreviewEnabled) return false;
+        if (TooltipConfig.armorPreviewBlacklist.contains(stack.getItem())) return false;
+        return stack.getItem() instanceof ArmorItem || TooltipConfig.armorPreviewWhitelist.contains(stack.getItem());
     }
 
-    private static int heightOf(List<ClientTooltipComponent> components) {
-        int sum = 0;
-        for (var component : components) {
-            sum += component.getHeight();
+    private static boolean shouldShowToolPreview(ItemStack stack) {
+        if (!TooltipConfig.client.toolPreviewEnabled) return false;
+        if (TooltipConfig.toolPreviewBlacklist.contains(stack.getItem())) return false;
+        return stack.getItem() instanceof TieredItem || TooltipConfig.toolPreviewWhitelist.contains(stack.getItem());
+    }
+
+    private static final class EmptyState extends TooltipState {
+
+        private EmptyState() {
+            super(ItemStack.EMPTY);
         }
-        return sum;
     }
 }
