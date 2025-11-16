@@ -8,6 +8,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 
+import java.util.Locale;
+
 public record RarityLabelProvider() implements LabelProvider {
 
     public static final RarityLabelProvider INSTANCE = new RarityLabelProvider();
@@ -26,7 +28,7 @@ public record RarityLabelProvider() implements LabelProvider {
     }
 
     private String makeRarityKey(Rarity rarity) {
-        final var name = rarity.name().toLowerCase().replaceAll(":", ".");
+        final var name = rarity.name().toLowerCase(Locale.US).replaceAll(":", ".");
         final var shortKey = "rarity." + name;
         if (I18n.exists(shortKey)) return shortKey;
         return "rarity." + name + ".name";

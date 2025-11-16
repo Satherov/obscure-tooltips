@@ -37,27 +37,26 @@ public final class DefaultLayout implements TooltipLayout<DefaultLayout.State> {
         final var height = state.heightOf(components) - 2;
         final var pos = positioner.positionTooltip(graphics.guiWidth(), graphics.guiHeight(), mouseX, mouseY, width, height);
 
-        graphics.drawManaged(() -> {
+        graphics.pose().pushPose();
+        graphics.pose().translate(0f, 0f, 400f);
 
-            graphics.pose().pushPose();
-            graphics.pose().translate(0f, 0f, 400f);
-            state.renderPanel(graphics, pos, width, height);
-            state.renderEffects(graphics, pos, width, height);
+        graphics.flush();
+        state.renderPanel(graphics, pos, width, height);
+        state.renderEffects(graphics, pos, width, height);
+        graphics.pose().pushPose();
+        graphics.pose().translate(0f, 0f, 2f);
+        state.renderFrame(graphics, pos, width, height);
+        graphics.pose().popPose();
+        graphics.flush();
 
-            graphics.pose().pushPose();
-            graphics.pose().translate(0f, 0f, 2f);
-            state.renderFrame(graphics, pos, width, height);
-            graphics.pose().popPose();
+        var componentY = pos.y();
+        for (var component : components) {
+            component.renderText(font, pos.x(), componentY, graphics.pose().last().pose(), graphics.bufferSource());
+            component.renderImage(font, pos.x(), componentY, graphics);
+            componentY += component.getHeight();
+        }
 
-            var componentY = pos.y();
-            for (var component : components) {
-                component.renderText(font, pos.x(), componentY, graphics.pose().last().pose(), graphics.bufferSource());
-                component.renderImage(font, pos.x(), componentY, graphics);
-                componentY += component.getHeight();
-            }
-
-            graphics.pose().popPose();
-        });
+        graphics.pose().popPose();
     }
 
     private void makeHeader(State state, List<ClientTooltipComponent> components, Font font) {

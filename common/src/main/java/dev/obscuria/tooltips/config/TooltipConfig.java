@@ -61,19 +61,19 @@ public final class TooltipConfig {
         public boolean armorPreviewEnabled = true;
         @ConfigOptions.Value("toolPreviewEnabled")
         @ConfigOptions.Comment("Whether Obscure Tooltips should display 3D tool/weapon previews.")
-        public boolean toolPreviewEnabled = true;
+        public boolean toolPreviewEnabled = false;
 
         @ConfigOptions.Value("armorPreviewWhitelist")
         @ConfigOptions.Comment("List of item IDs that should always display a 3D armor preview.")
-        public List<String> armorPreviewWhitelist = List.of();
+        public List<String> armorPreviewWhitelist = new ArrayList<>();
         @ConfigOptions.Value("armorPreviewBlacklist")
         @ConfigOptions.Comment("List of item IDs that should never display a 3D armor preview.")
-        public List<String> armorPreviewBlacklist = List.of();
+        public List<String> armorPreviewBlacklist = new ArrayList<>();
         @ConfigOptions.Value("toolPreviewWhitelist")
         @ConfigOptions.Comment("List of item IDs that should always display a 3D tool/weapon preview.")
-        public List<String> toolPreviewWhitelist = List.of("minecraft:trident", "minecraft:bow", "minecraft:crossbow");
+        public List<String> toolPreviewWhitelist = new ArrayList<>(List.of("minecraft:trident", "minecraft:bow", "minecraft:crossbow"));
         @ConfigOptions.Value("toolPreviewBlacklist")
         @ConfigOptions.Comment("List of item IDs that should never display a 3D tool/weapon preview.")
-        public List<String> toolPreviewBlacklist = List.of();
+        public List<String> toolPreviewBlacklist = new ArrayList<>();
     }
 }
