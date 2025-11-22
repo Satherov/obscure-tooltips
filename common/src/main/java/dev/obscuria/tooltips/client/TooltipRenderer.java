@@ -37,7 +37,7 @@ public final class TooltipRenderer {
 
         components = new ArrayList<>(components);
         components = layout.rawProcessPreWrap(state, components, font);
-        components = TooltipHelper.wrapLines(components, font);
+        components = TooltipHelper.wrapLines(graphics, components, font);
         components = layout.rawProcessPostWrap(state, components, font);
 
         final var margin = TooltipConfig.client.contentMargin;

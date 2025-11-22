@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import org.joml.Matrix4f;
 
 public record HeaderComponent(
-        int minWidth,
         boolean drawDelimiter,
         TooltipState state,
         ClientTooltipComponent title,
@@ -28,7 +27,7 @@ public record HeaderComponent(
 
     @Override
     public int getWidth(Font font) {
-        return Math.max(minWidth, 22 + Math.max(title.getWidth(font), label.getWidth(font)));
+        return 22 + Math.max(title.getWidth(font), label.getWidth(font));
     }
 
     @Override

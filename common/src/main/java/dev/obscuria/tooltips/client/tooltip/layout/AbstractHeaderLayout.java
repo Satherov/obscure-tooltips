@@ -1,6 +1,5 @@
 package dev.obscuria.tooltips.client.tooltip.layout;
 
-import dev.obscuria.tooltips.client.TooltipHelper;
 import dev.obscuria.tooltips.client.component.HeaderComponent;
 import dev.obscuria.tooltips.client.TooltipState;
 import net.minecraft.client.gui.Font;
@@ -19,7 +18,6 @@ public abstract class AbstractHeaderLayout<T extends TooltipState> implements To
     protected void makeHeader(T state, List<ClientTooltipComponent> components, Font font) {
         final var title = components.remove(0);
         final var label = state.createLabel();
-        final var width = TooltipHelper.widthOf(components, font);
-        components.add(0, new HeaderComponent(width, !components.isEmpty(), state, title, label));
+        components.add(0, new HeaderComponent(!components.isEmpty(), state, title, label));
     }
 }

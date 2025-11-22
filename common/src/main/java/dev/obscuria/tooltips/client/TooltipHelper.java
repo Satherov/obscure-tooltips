@@ -3,6 +3,7 @@ package dev.obscuria.tooltips.client;
 import dev.obscuria.tooltips.config.TooltipConfig;
 import dev.obscuria.tooltips.mixin.ClientTextTooltipAccessor;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTextTooltip;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.locale.Language;
@@ -34,8 +35,8 @@ public interface TooltipHelper {
         return sum;
     }
 
-    static List<ClientTooltipComponent> wrapLines(List<ClientTooltipComponent> components, Font font) {
-        final var maxWidth = TooltipConfig.client.autowrapping.maxWidth;
+    static List<ClientTooltipComponent> wrapLines(GuiGraphics graphics, List<ClientTooltipComponent> components, Font font) {
+        final var maxWidth = (int) (graphics.guiWidth() * 0.5);
         if (!shouldWrap(components, font, maxWidth)) return components;
         final var result = new ArrayList<ClientTooltipComponent>(components.size() * 2);
         for (var component : components) {

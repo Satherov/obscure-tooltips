@@ -106,9 +106,6 @@ public final class TooltipConfig {
             @ConfigOptions.Value("enabled")
             @ConfigOptions.Comment("Whether Obscure Tooltips should wrap lines in tooltips.")
             public boolean enabled = true;
-            @ConfigOptions.Value("maxWidth")
-            @ConfigOptions.Comment("The maximum width (in pixels) of a line in tooltips.")
-            public int maxWidth = 300;
         }
 
         public static final class Scrolling {

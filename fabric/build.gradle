@@ -7,6 +7,20 @@ plugins {
     id "com.modrinth.minotaur"
 }
 
+repositories {
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
+}
+
 dependencies {
 
     // Minecraft
@@ -17,10 +31,11 @@ dependencies {
     }
 
     // Fabric
-    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
-    modImplementation("com.terraformersmc:modmenu:7.2.2")
-    modImplementation("curse.maven:emi-580555:6420944")
+    modImplementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
+    modImplementation("net.fabricmc.fabric-api:fabric-api:${fabric_version}")
+    modLocalRuntime("maven.modrinth:endrem:5.2.3")
+    modLocalRuntime("com.terraformersmc:modmenu:7.2.2")
+    modLocalRuntime("curse.maven:emi-580555:6420944")
 
     // Common
     modImplementation("dev.obscuria:fragmentum-fabric:1.20.1-${fragmentum_version}")
