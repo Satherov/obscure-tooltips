@@ -1,4 +1,4 @@
-package dev.obscuria.tooltips.client.renderer;
+package dev.obscuria.tooltips.client;
 
 import com.mojang.math.Axis;
 import dev.obscuria.tooltips.client.tooltip.particle.TooltipParticle;
@@ -50,5 +50,9 @@ public abstract class ParticleData {
 
     public float computeRotation(TooltipState state, float progress) {
         return 0f;
+    }
+
+    public boolean isExpired() {
+        return status == ParticleStatus.EXPIRED;
     }
 }

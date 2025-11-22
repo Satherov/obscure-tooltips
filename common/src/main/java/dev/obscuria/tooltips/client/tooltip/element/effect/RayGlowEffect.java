@@ -8,7 +8,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.obscuria.fragmentum.util.color.ARGB;
 import dev.obscuria.fragmentum.util.easing.Easing;
 import dev.obscuria.tooltips.ObscureTooltips;
-import dev.obscuria.tooltips.client.renderer.TooltipState;
+import dev.obscuria.tooltips.client.TooltipState;
 import dev.obscuria.tooltips.client.tooltip.particle.GraphicUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;

@@ -3,12 +3,10 @@ package dev.obscuria.tooltips.client.tooltip.layout;
 import com.mojang.serialization.Codec;
 import dev.obscuria.fragmentum.registry.BootstrapContext;
 import dev.obscuria.tooltips.client.registry.TooltipRegistries;
-import dev.obscuria.tooltips.client.renderer.TooltipState;
+import dev.obscuria.tooltips.client.TooltipState;
 import dev.obscuria.tooltips.client.tooltip.element.panel.TooltipPanel;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
-import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipPositioner;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
@@ -20,15 +18,18 @@ public interface TooltipLayout<T extends TooltipState> {
 
     Codec<? extends TooltipLayout<?>> codec();
 
-    T makeTooltipState(ItemStack stack);
+    T extractState(ItemStack stack);
 
-    void render(T state, GuiGraphics graphics, List<ClientTooltipComponent> components,
-                int mouseX, int mouseY, ClientTooltipPositioner positioner, Font font);
+    List<ClientTooltipComponent> processPreWrap(T state, List<ClientTooltipComponent> components, Font font);
 
-    default void renderRaw(
-            TooltipState state, GuiGraphics graphics, List<ClientTooltipComponent> components,
-            int mouseX, int mouseY, ClientTooltipPositioner positioner, Font font) {
-        this.render(this.adapt(state), graphics, components, mouseX, mouseY, positioner, font);
+    List<ClientTooltipComponent> processPostWrap(T state, List<ClientTooltipComponent> components, Font font);
+
+    default List<ClientTooltipComponent> rawProcessPreWrap(TooltipState state, List<ClientTooltipComponent> components, Font font) {
+        return processPreWrap(this.adapt(state), components, font);
+    }
+
+    default List<ClientTooltipComponent> rawProcessPostWrap(TooltipState state, List<ClientTooltipComponent> components, Font font) {
+        return processPostWrap(this.adapt(state), components, font);
     }
 
     @SuppressWarnings("unchecked")

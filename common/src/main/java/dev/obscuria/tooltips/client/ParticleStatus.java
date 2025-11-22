@@ -1,4 +1,4 @@
-package dev.obscuria.tooltips.client.renderer;
+package dev.obscuria.tooltips.client;
 
 public enum ParticleStatus {
     ALIVE,

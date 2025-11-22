@@ -3,9 +3,9 @@ package dev.obscuria.tooltips.client.tooltip.particle;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.obscuria.fragmentum.util.color.ARGB;
-import dev.obscuria.tooltips.client.renderer.TooltipState;
+import dev.obscuria.tooltips.client.TooltipState;
 import dev.obscuria.tooltips.client.tooltip.element.Transform;
-import dev.obscuria.tooltips.client.renderer.ParticleData;
+import dev.obscuria.tooltips.client.ParticleData;
 import net.minecraft.client.gui.GuiGraphics;
 
 public record LineParticle(

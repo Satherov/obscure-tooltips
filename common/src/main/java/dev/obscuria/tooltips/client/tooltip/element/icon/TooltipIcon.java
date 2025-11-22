@@ -3,7 +3,7 @@ package dev.obscuria.tooltips.client.tooltip.element.icon;
 import com.mojang.math.Axis;
 import com.mojang.serialization.Codec;
 import dev.obscuria.fragmentum.registry.BootstrapContext;
-import dev.obscuria.tooltips.client.renderer.TooltipState;
+import dev.obscuria.tooltips.client.TooltipState;
 import dev.obscuria.tooltips.client.tooltip.element.Transform;
 import dev.obscuria.tooltips.client.registry.TooltipRegistries;
 import net.minecraft.client.gui.GuiGraphics;

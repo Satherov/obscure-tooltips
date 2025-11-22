@@ -3,7 +3,7 @@ package dev.obscuria.tooltips.client.tooltip.element.icon;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.obscuria.fragmentum.util.easing.Easing;
-import dev.obscuria.tooltips.client.renderer.TooltipState;
+import dev.obscuria.tooltips.client.TooltipState;
 import dev.obscuria.tooltips.client.tooltip.element.Transform;
 import net.minecraft.client.gui.GuiGraphics;
 

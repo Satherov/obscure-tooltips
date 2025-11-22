@@ -2,7 +2,7 @@ package dev.obscuria.tooltips.client.tooltip.element.effect;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.obscuria.tooltips.client.renderer.TooltipState;
+import dev.obscuria.tooltips.client.TooltipState;
 import dev.obscuria.tooltips.client.tooltip.element.QuadPalette;
 import dev.obscuria.tooltips.client.tooltip.particle.GraphicUtils;
 import net.minecraft.client.gui.GuiGraphics;

@@ -1,7 +1,8 @@
-package dev.obscuria.tooltips.client.renderer;
+package dev.obscuria.tooltips.client;
 
 import dev.obscuria.fragmentum.client.ClientGroupTooltip;
-import dev.obscuria.tooltips.client.StackBuffer;
+import dev.obscuria.tooltips.client.component.StackBuffer;
+import dev.obscuria.tooltips.client.tooltip.TooltipScroll;
 import dev.obscuria.tooltips.client.tooltip.layout.ArmorPreviewLayout;
 import dev.obscuria.tooltips.client.tooltip.layout.DefaultLayout;
 import dev.obscuria.tooltips.client.tooltip.layout.ToolPreviewLayout;
@@ -35,7 +36,38 @@ public final class TooltipRenderer {
         if (!perform(components)) return false;
 
         components = new ArrayList<>(components);
-        layout.renderRaw(state, graphics, components, mouseX, mouseY, positioner, font);
+        components = layout.rawProcessPreWrap(state, components, font);
+        components = TooltipHelper.wrapLines(components, font);
+        components = layout.rawProcessPostWrap(state, components, font);
+
+        final var margin = TooltipConfig.client.contentMargin;
+        final var width = margin * 2 + TooltipHelper.widthOf(components, font);
+        final var height = margin * 2 + TooltipHelper.heightOf(components) - 2;
+        final var pos = positioner.positionTooltip(graphics.guiWidth(), graphics.guiHeight(), mouseX, mouseY, width, height);
+
+        TooltipScroll.update(state, 6 + height, graphics.guiHeight());
+
+        graphics.pose().pushPose();
+        graphics.pose().translate(0f, TooltipScroll.getScroll(), 400f);
+
+        graphics.flush();
+        state.renderPanel(graphics, pos, width, height);
+        state.renderEffects(graphics, pos, width, height);
+        graphics.pose().pushPose();
+        graphics.pose().translate(0f, 0f, 2f);
+        state.renderFrame(graphics, pos, width, height);
+        graphics.pose().popPose();
+        graphics.flush();
+
+        var componentX = margin + pos.x();
+        var componentY = margin + pos.y();
+        for (var component : components) {
+            component.renderText(font, componentX, componentY, graphics.pose().last().pose(), graphics.bufferSource());
+            component.renderImage(font, componentX, componentY, graphics);
+            componentY += component.getHeight();
+        }
+
+        graphics.pose().popPose();
 
         lastStack = actualStack;
         actualStack = ItemStack.EMPTY;
@@ -51,18 +83,18 @@ public final class TooltipRenderer {
         layout = shouldShowArmorPreview(actualStack) ? ArmorPreviewLayout.INSTANCE
                 : shouldShowToolPreview(actualStack) ? ToolPreviewLayout.INSTANCE
                 : DefaultLayout.INSTANCE;
-        state = layout.makeTooltipState(actualStack);
+        state = layout.extractState(actualStack);
         return true;
     }
 
     private static boolean shouldShowArmorPreview(ItemStack stack) {
-        if (!TooltipConfig.client.armorPreviewEnabled) return false;
+        if (!TooltipConfig.client.armorPreview.enabled) return false;
         if (TooltipConfig.armorPreviewBlacklist.contains(stack.getItem())) return false;
         return stack.getItem() instanceof ArmorItem || TooltipConfig.armorPreviewWhitelist.contains(stack.getItem());
     }
 
     private static boolean shouldShowToolPreview(ItemStack stack) {
-        if (!TooltipConfig.client.toolPreviewEnabled) return false;
+        if (!TooltipConfig.client.toolPreview.enabled) return false;
         if (TooltipConfig.toolPreviewBlacklist.contains(stack.getItem())) return false;
         return stack.getItem() instanceof TieredItem || TooltipConfig.toolPreviewWhitelist.contains(stack.getItem());
     }

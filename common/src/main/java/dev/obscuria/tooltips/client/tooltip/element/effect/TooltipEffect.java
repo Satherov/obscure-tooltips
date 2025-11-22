@@ -3,7 +3,7 @@ package dev.obscuria.tooltips.client.tooltip.element.effect;
 import com.mojang.serialization.Codec;
 import dev.obscuria.fragmentum.registry.BootstrapContext;
 import dev.obscuria.tooltips.client.registry.TooltipRegistries;
-import dev.obscuria.tooltips.client.renderer.TooltipState;
+import dev.obscuria.tooltips.client.TooltipState;
 import net.minecraft.client.gui.GuiGraphics;
 
 import java.util.List;

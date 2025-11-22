@@ -1,10 +1,10 @@
-package dev.obscuria.tooltips.client.renderer;
+package dev.obscuria.tooltips.client;
 
+import dev.obscuria.tooltips.client.component.BlankComponent;
 import dev.obscuria.tooltips.client.tooltip.TooltipDefinition;
 import dev.obscuria.tooltips.client.tooltip.TooltipLabel;
 import dev.obscuria.tooltips.client.tooltip.TooltipStyle;
 import net.minecraft.Util;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.world.item.ItemStack;
@@ -30,30 +30,16 @@ public abstract class TooltipState {
         this.particles = new ArrayList<>();
     }
 
+    public boolean isInitialFrame() {
+        return Util.getMillis() == startTime;
+    }
+
     public float timeInSeconds() {
         return (Util.getMillis() - startTime) * 0.001f;
     }
 
     public ClientTooltipComponent createLabel() {
         return label != null ? label.create(stack) : BlankComponent.INSTANCE;
-    }
-
-    public int widthOf(List<ClientTooltipComponent> components, Font font) {
-        int max = 0;
-        for (var component : components) {
-            final var width = component.getWidth(font);
-            if (width <= max) continue;
-            max = width;
-        }
-        return max;
-    }
-
-    public int heightOf(List<ClientTooltipComponent> components) {
-        int sum = 0;
-        for (var component : components) {
-            sum += component.getHeight();
-        }
-        return sum;
     }
 
     public void addParticle(ParticleData particle) {
@@ -77,6 +63,6 @@ public abstract class TooltipState {
     }
 
     public void removeExpiredParticles() {
-        particles.removeIf(it -> it.status == ParticleStatus.EXPIRED);
+        particles.removeIf(ParticleData::isExpired);
     }
 }

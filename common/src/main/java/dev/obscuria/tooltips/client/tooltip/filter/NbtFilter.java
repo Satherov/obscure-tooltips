@@ -4,12 +4,14 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
-import net.minecraft.nbt.TagParser;
+import net.minecraft.nbt.*;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
-public record NbtFilter(CompoundTag nbt) implements ItemFilter {
+public record NbtFilter(
+        CompoundTag nbt,
+        boolean matchExact
+) implements ItemFilter {
 
     public static final Codec<NbtFilter> CODEC;
 
@@ -20,7 +22,9 @@ public record NbtFilter(CompoundTag nbt) implements ItemFilter {
 
     @Override
     public boolean test(ItemStack stack) {
-        return NbtUtils.compareNbt(nbt, stack.getTag(), false);
+        return matchExact
+                ? NbtUtils.compareNbt(nbt, stack.getTag(), true)
+                : isSubtagOf(nbt, stack.getTag());
     }
 
     private static DataResult<CompoundTag> tryParseNbt(String input) {
@@ -31,10 +35,42 @@ public record NbtFilter(CompoundTag nbt) implements ItemFilter {
         }
     }
 
+    private static boolean isSubtagOf(@Nullable Tag tag, @Nullable Tag parent) {
+        if (tag == null) return true;
+        if (parent == null) return false;
+        if (tag.getId() != parent.getId()) return false;
+
+        if (tag instanceof CompoundTag compound1 && parent instanceof CompoundTag compound2) {
+            for (var key : compound1.getAllKeys()) {
+                final @Nullable var sub1 = compound1.get(key);
+                final @Nullable var sub2 = compound2.get(key);
+                if (!isSubtagOf(sub1, sub2)) return false;
+            }
+            return true;
+        }
+
+        if (tag instanceof ListTag list1 && parent instanceof ListTag list2) {
+            if (list1.size() > list2.size()) return false;
+            for (var element1 : list1) {
+                var found = false;
+                for (var element2 : list2) {
+                    if (!isSubtagOf(element1, element2)) continue;
+                    found = true;
+                    break;
+                }
+                if (!found) return false;
+            }
+            return true;
+        }
+
+        return tag.equals(parent);
+    }
+
     static {
         final var tagCodec = Codec.STRING.comapFlatMap(NbtFilter::tryParseNbt, CompoundTag::toString);
         CODEC = RecordCodecBuilder.create(codec -> codec.group(
-                tagCodec.fieldOf("nbt").forGetter(NbtFilter::nbt)
+                tagCodec.fieldOf("nbt").forGetter(NbtFilter::nbt),
+                Codec.BOOL.optionalFieldOf("match_exact", false).forGetter(NbtFilter::matchExact)
         ).apply(codec, NbtFilter::new));
     }
 }

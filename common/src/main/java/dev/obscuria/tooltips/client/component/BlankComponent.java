@@ -1,4 +1,4 @@
-package dev.obscuria.tooltips.client.renderer;
+package dev.obscuria.tooltips.client.component;
 
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;

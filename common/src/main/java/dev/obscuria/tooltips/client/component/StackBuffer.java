@@ -1,4 +1,4 @@
-package dev.obscuria.tooltips.client;
+package dev.obscuria.tooltips.client.component;
 
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
@@ -6,6 +6,10 @@ import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 
 public record StackBuffer(ItemStack stack) implements TooltipComponent, ClientTooltipComponent {
+
+    public static ClientTooltipComponent asClient(StackBuffer buffer) {
+        return buffer;
+    }
 
     @Override
     public int getHeight() {

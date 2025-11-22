@@ -1,7 +1,8 @@
-package dev.obscuria.tooltips.client.renderer;
+package dev.obscuria.tooltips.client.component;
 
 import dev.obscuria.fragmentum.util.color.ARGB;
 import dev.obscuria.fragmentum.util.color.Colors;
+import dev.obscuria.tooltips.client.TooltipState;
 import dev.obscuria.tooltips.client.tooltip.particle.GraphicUtils;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
