@@ -40,6 +40,7 @@ dependencies {
     // Common
     modImplementation("dev.obscuria:fragmentum-fabric:1.20.1-${fragmentum_version}")
     modLocalRuntime("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:8.0.0")
+    modLocalRuntime("fuzs.forgeconfigscreens:forgeconfigscreens-fabric:8.0.2")
     implementation project(":common")
 }
 
@@ -98,7 +99,6 @@ tasks.register('curseforge', TaskPublishCurseForge) {
 }
 
 modrinth {
-
     token = System.getenv("MD_TOKEN")
     projectId = modrinth_id
     uploadFile = rootProject.file("output/${version}/${mod_id}-${project.name}-${minecraft_version}-${version}.jar")

@@ -2,6 +2,8 @@ package dev.obscuria.tooltips.client.tooltip.layout;
 
 import com.mojang.serialization.Codec;
 import dev.obscuria.tooltips.client.TooltipState;
+import dev.obscuria.tooltips.client.component.SplitComponent;
+import dev.obscuria.tooltips.client.component.ToolPreviewComponent;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.world.item.ItemStack;
@@ -25,7 +27,7 @@ public final class ToolPreviewLayout extends AbstractHeaderLayout<ToolPreviewLay
 
     @Override
     public List<ClientTooltipComponent> processPostWrap(State state, List<ClientTooltipComponent> components, Font font) {
-        return components;
+        return List.of(new SplitComponent(new ToolPreviewComponent(state.stack), components));
     }
 
     public static class State extends TooltipState {

@@ -2,7 +2,7 @@ package dev.obscuria.tooltips.mixin;
 
 import dev.obscuria.fragmentum.world.tooltip.GroupTooltip;
 import dev.obscuria.tooltips.client.component.StackBuffer;
-import dev.obscuria.tooltips.config.TooltipConfig;
+import dev.obscuria.tooltips.config.ClientConfig;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -19,8 +19,8 @@ public abstract class MixinItemStack {
     @Inject(method = "getTooltipImage", at = @At("RETURN"), cancellable = true)
     private void injectStackBuffer(CallbackInfoReturnable<Optional<TooltipComponent>> info) {
         final var self = (ItemStack) (Object) this;
-        if (!TooltipConfig.client.enabled) return;
-        if (TooltipConfig.ignoredItems.contains(self.getItem())) return;
+        if (!ClientConfig.ENABLED.get()) return;
+        if (ClientConfig.isIgnored(self.getItem())) return;
         final @Nullable var image = info.getReturnValue().orElse(null);
         final var group = GroupTooltip.maybeGroup(image, new StackBuffer(self));
         info.setReturnValue(Optional.of(group));

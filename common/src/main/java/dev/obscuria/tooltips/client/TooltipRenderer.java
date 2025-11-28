@@ -7,7 +7,7 @@ import dev.obscuria.tooltips.client.tooltip.layout.ArmorPreviewLayout;
 import dev.obscuria.tooltips.client.tooltip.layout.DefaultLayout;
 import dev.obscuria.tooltips.client.tooltip.layout.ToolPreviewLayout;
 import dev.obscuria.tooltips.client.tooltip.layout.TooltipLayout;
-import dev.obscuria.tooltips.config.TooltipConfig;
+import dev.obscuria.tooltips.config.ClientConfig;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
@@ -31,7 +31,7 @@ public final class TooltipRenderer {
             GuiGraphics graphics, Font font, List<ClientTooltipComponent> components,
             int mouseX, int mouseY, ClientTooltipPositioner positioner) {
 
-        if (!TooltipConfig.client.enabled) return false;
+        if (!ClientConfig.ENABLED.get()) return false;
         if (components.isEmpty()) return false;
         if (!perform(components)) return false;
 
@@ -40,7 +40,7 @@ public final class TooltipRenderer {
         components = TooltipHelper.wrapLines(graphics, components, font);
         components = layout.rawProcessPostWrap(state, components, font);
 
-        final var margin = TooltipConfig.client.contentMargin;
+        final var margin = ClientConfig.CONTENT_MARGIN.get();
         final var width = margin * 2 + TooltipHelper.widthOf(components, font);
         final var height = margin * 2 + TooltipHelper.heightOf(components) - 2;
         final var pos = positioner.positionTooltip(graphics.guiWidth(), graphics.guiHeight(), mouseX, mouseY, width, height);
@@ -88,15 +88,15 @@ public final class TooltipRenderer {
     }
 
     private static boolean shouldShowArmorPreview(ItemStack stack) {
-        if (!TooltipConfig.client.armorPreview.enabled) return false;
-        if (TooltipConfig.armorPreviewBlacklist.contains(stack.getItem())) return false;
-        return stack.getItem() instanceof ArmorItem || TooltipConfig.armorPreviewWhitelist.contains(stack.getItem());
+        if (!ClientConfig.ARMOR_PREVIEW_ENABLED.get()) return false;
+        if (ClientConfig.isInArmorPreviewBlacklist(stack.getItem())) return false;
+        return stack.getItem() instanceof ArmorItem || ClientConfig.isInArmorPreviewWhitelist(stack.getItem());
     }
 
     private static boolean shouldShowToolPreview(ItemStack stack) {
-        if (!TooltipConfig.client.toolPreview.enabled) return false;
-        if (TooltipConfig.toolPreviewBlacklist.contains(stack.getItem())) return false;
-        return stack.getItem() instanceof TieredItem || TooltipConfig.toolPreviewWhitelist.contains(stack.getItem());
+        if (!ClientConfig.TOOL_PREVIEW_ENABLED.get()) return false;
+        if (ClientConfig.isInToolPreviewBlacklist(stack.getItem())) return false;
+        return stack.getItem() instanceof TieredItem || ClientConfig.isInToolPreviewWhitelist(stack.getItem());
     }
 
     private static final class EmptyState extends TooltipState {

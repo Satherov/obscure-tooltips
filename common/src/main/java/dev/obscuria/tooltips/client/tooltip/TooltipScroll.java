@@ -2,7 +2,7 @@ package dev.obscuria.tooltips.client.tooltip;
 
 import dev.obscuria.fragmentum.util.easing.Easing;
 import dev.obscuria.tooltips.client.TooltipState;
-import dev.obscuria.tooltips.config.TooltipConfig;
+import dev.obscuria.tooltips.config.ClientConfig;
 import lombok.Getter;
 import net.minecraft.Util;
 import net.minecraft.util.Mth;
@@ -20,13 +20,13 @@ public final class TooltipScroll {
     private static long lastUpdateTime;
 
     public static boolean shouldCaptureInput() {
-        if (!TooltipConfig.client.scrolling.enabled) return false;
+        if (!ClientConfig.SCROLL_ENABLED.get()) return false;
         if (!isActive || lastUpdateTime == 0) return false;
         return (Util.getMillis() - lastUpdateTime) <= 200;
     }
 
     public static void onInput(float offset) {
-        final var scrollSpeed = (float) TooltipConfig.client.scrolling.scrollSpeed;
+        final var scrollSpeed = (float) ClientConfig.SCROLL_SPEED.get();
         final var targetScroll = clampScroll(endScroll + offset * scrollSpeed);
         if (endScroll == targetScroll) return;
         lastInputTime = Util.getMillis();
@@ -35,7 +35,7 @@ public final class TooltipScroll {
     }
 
     public static void update(TooltipState state, int tooltipHeight, int screenHeight) {
-        if (!TooltipConfig.client.scrolling.enabled) return;
+        if (!ClientConfig.SCROLL_ENABLED.get()) return;
         final var overflow = Math.max(0, tooltipHeight - Math.max(0, screenHeight));
         isActive = overflow > 0;
         if (isActive) {
@@ -64,11 +64,11 @@ public final class TooltipScroll {
     }
 
     private static float minScroll() {
-        return -TooltipConfig.client.scrolling.scrollMargin;
+        return -ClientConfig.SCROLL_MARGIN.get();
     }
 
     private static float maxScroll() {
-        return maxScroll + TooltipConfig.client.scrolling.scrollMargin;
+        return maxScroll + ClientConfig.SCROLL_MARGIN.get();
     }
 
     private static float clampScroll(float scroll) {

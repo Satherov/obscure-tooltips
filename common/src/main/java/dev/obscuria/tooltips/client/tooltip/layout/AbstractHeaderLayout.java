@@ -18,6 +18,11 @@ public abstract class AbstractHeaderLayout<T extends TooltipState> implements To
     protected void makeHeader(T state, List<ClientTooltipComponent> components, Font font) {
         final var title = components.remove(0);
         final var label = state.createLabel();
-        components.add(0, new HeaderComponent(!components.isEmpty(), state, title, label));
+        final var drawDelimiter = !components.isEmpty() && !isZeroHeight(components);
+        components.add(0, new HeaderComponent(drawDelimiter, state, title, label));
+    }
+
+    private boolean isZeroHeight(List<ClientTooltipComponent> components) {
+        return components.stream().mapToInt(ClientTooltipComponent::getHeight).sum() <= 0;
     }
 }

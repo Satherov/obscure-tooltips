@@ -1,2 +1,5 @@
-- Fixed incorrect tooltip widths that caused some tooltips to appear excessively wide.
-- Fixed automatic line wrapping so it now adapts to the screen size and limits line width to 50% of the screen width.
+- Moved default styles into the built-in **Vibrant Tooltips** resource pack, which can now be toggled on or off.
+- Fixed the tooltip header divider showing up even when the tooltip body was empty.
+- Fixed the missing 3D tool preview.
+- Fixed configuration handling so it no longer resets in rare scenarios.
+- Renamed several config options to decouple them from their category names.
