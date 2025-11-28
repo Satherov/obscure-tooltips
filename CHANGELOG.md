@@ -1,0 +1,5 @@
+- Moved default styles into the built-in **Vibrant Tooltips** resource pack, which can now be toggled on or off.
+- Fixed the tooltip header divider showing up even when the tooltip body was empty.
+- Fixed the missing 3D tool preview.
+- Fixed configuration handling so it no longer resets in rare scenarios.
+- Renamed several config options to decouple them from their category names.

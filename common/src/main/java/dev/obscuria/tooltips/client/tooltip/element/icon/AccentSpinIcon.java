@@ -1,0 +1,50 @@
+package dev.obscuria.tooltips.client.tooltip.element.icon;
+
+import com.mojang.math.Axis;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.obscuria.fragmentum.content.util.easing.Easing;
+import dev.obscuria.tooltips.client.TooltipState;
+import dev.obscuria.tooltips.client.tooltip.element.Transform;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.util.Mth;
+
+public record AccentSpinIcon(Transform transform) implements TooltipIcon {
+
+    public static final MapCodec<AccentSpinIcon> CODEC;
+
+    @Override
+    public MapCodec<AccentSpinIcon> codec() {
+        return CODEC;
+    }
+
+    @Override
+    public void render(TooltipState state, GuiGraphics graphics, int x, int y) {
+        pushTransform(state, transform, graphics, x, y);
+        graphics.renderItem(state.stack, 0, 0);
+        popTransform(graphics);
+    }
+
+    @Override
+    public void applyScale(TooltipState state, GuiGraphics graphics, int x, int y) {
+        final var time = state.timeInSeconds();
+        final var scale = (time < 0.25f)
+                ? Easing.EASE_OUT_CUBIC.compute(time / 0.25f) * 1.33f
+                : (time < 0.5f)
+                ? 1.33f - 0.33f * Easing.EASE_OUT_CUBIC.compute((time - 0.25f) / 0.25f)
+                : 1f;
+        graphics.pose().scale(scale, scale, scale);
+    }
+
+    @Override
+    public void applyRotation(TooltipState state, GuiGraphics graphics, int x, int y) {
+        final var rotation = 360f * Mth.clamp(Easing.EASE_OUT_EXPO.compute(state.timeInSeconds()), 0f, 1f);
+        graphics.pose().mulPose(Axis.YP.rotationDegrees(rotation));
+    }
+
+    static {
+        CODEC = RecordCodecBuilder.mapCodec(codec -> codec.group(
+                Transform.CODEC.fieldOf("transform").forGetter(AccentSpinIcon::transform)
+        ).apply(codec, AccentSpinIcon::new));
+    }
+}
