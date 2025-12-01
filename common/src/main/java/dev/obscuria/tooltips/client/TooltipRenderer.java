@@ -53,8 +53,9 @@ public final class TooltipRenderer {
         graphics.flush();
         state.renderPanel(graphics, pos, width, height);
         state.renderEffects(graphics, pos, width, height);
+        graphics.flush();
         graphics.pose().pushPose();
-        graphics.pose().translate(0f, 0f, 2f);
+        graphics.pose().translate(0f, 0f, 5f);
         state.renderFrame(graphics, pos, width, height);
         graphics.pose().popPose();
         graphics.flush();

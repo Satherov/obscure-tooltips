@@ -16,7 +16,6 @@ java {
 repositories {
     mavenLocal()
     mavenCentral()
-    // https://docs.gradle.org/current/userguide/declaring_repositories.html#declaring_content_exclusively_found_in_one_repository
     exclusiveContent {
         forRepository {
             maven {
@@ -38,6 +37,10 @@ repositories {
                 }
         )
         filter { includeGroup('org.parchmentmc.data') }
+    }
+    maven {
+        name = "Obscuria"
+        url = "https://raw.githubusercontent.com/ObscuriaLithium/modding/main/maven/"
     }
     maven {
         name = 'BlameJared'
@@ -66,9 +69,9 @@ dependencies {
     annotationProcessor("org.checkerframework:checker:3.43.0")
     compileOnly("org.projectlombok:lombok:1.18.34")
     annotationProcessor("org.projectlombok:lombok:1.18.34")
-
-    api('com.github.FiguraMC.luaj:luaj-core:3.0.8-figura')
-    api('com.github.FiguraMC.luaj:luaj-jse:3.0.8-figura')
+    // Lua
+    implementation('com.github.FiguraMC.luaj:luaj-core:3.0.8-figura')
+    implementation('com.github.FiguraMC.luaj:luaj-jse:3.0.8-figura')
 }
 
 // Declare capabilities on the outgoing configurations.
@@ -126,25 +129,12 @@ processResources {
             'modrinth'                     : modrinth,
             'sources'                      : sources,
             'issues'                       : issues,
-            'discord'                      : discord
+            'discord'                      : discord,
+            'update_lookup'                : update_lookup
     ]
 
     filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', 'META-INF/neoforge.mods.toml', '*.mixins.json']) {
         expand expandProps
     }
     inputs.properties(expandProps)
-}
-
-publishing {
-    publications {
-        register('mavenJava', MavenPublication) {
-            artifactId base.archivesName.get()
-            from components.java
-        }
-    }
-    repositories {
-        maven {
-            url System.getenv('local_maven_url')
-        }
-    }
 }
