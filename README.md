@@ -11,7 +11,7 @@
 Obscure Tooltips is a client-side mod that enhances item tooltips with animated visual and particle effects, making rarer items more vibrant and eye-catching.
 
 ### Documentation
-- [Core concept and style customization](https://obscurialithium.github.io/obscure-tooltips/)
+- [Key concept and style customization](https://obscurialithium.github.io/obscure-tooltips/)
 
 ### Project Pages
 

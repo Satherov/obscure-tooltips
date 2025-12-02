@@ -10,6 +10,9 @@ import java.util.List;
 public final class ClientConfig {
 
     public static final ConfigValue<Boolean> ENABLED;
+    public static final ConfigValue<Boolean> LABELS_ENABLED;
+    public static final ConfigValue<Boolean> SHADOWS_ENABLED;
+    public static final ConfigValue<Double> SHADOW_OPACITY;
     public static final ConfigValue<Integer> CONTENT_MARGIN;
     public static final ConfigValue<List<? extends String>> IGNORED_ITEMS;
 
@@ -63,6 +66,15 @@ public final class ClientConfig {
         ENABLED = builder
                 .comment("Whether Obscure Tooltips should be active at all.")
                 .defineBoolean("enabled", true);
+        LABELS_ENABLED = builder
+                .comment("Whether Obscure Tooltips should display the second line in the tooltip header.")
+                .defineBoolean("labelsEnabled", true);
+        SHADOWS_ENABLED = builder
+                .comment("Whether Obscure Tooltips should display drop shadows.")
+                .defineBoolean("shadowsEnabled", true);
+        SHADOW_OPACITY = builder
+                .comment("The opacity of the drop shadows.")
+                .defineDouble("shadowOpacity", 0.3, 0.0, 1.0);
         CONTENT_MARGIN = builder
                 .comment("The margin (in pixels) between the tooltip frame and its content.")
                 .defineInt("contentMargin", 3, 0, 16);

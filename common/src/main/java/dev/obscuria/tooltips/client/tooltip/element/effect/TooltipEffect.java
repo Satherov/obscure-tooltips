@@ -25,10 +25,10 @@ public interface TooltipEffect {
     default void renderFront(TooltipState state, GuiGraphics graphics, int x, int y, int width, int height) {}
 
     static void bootstrap(BootstrapContext<Codec<? extends TooltipEffect>> context) {
-
         context.register("rim_light", () -> RimLightEffect.CODEC);
         context.register("ray_glow", () -> RayGlowEffect.CODEC);
         context.register("inward_particle", () -> InwardParticleEffect.CODEC);
         context.register("icon_particle", () -> IconParticleEffect.CODEC);
+        context.register("shimmer", () -> ShimmerEffect.CODEC);
     }
 }

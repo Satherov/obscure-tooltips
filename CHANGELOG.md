@@ -1,5 +1,8 @@
-- Moved default styles into the built-in **Vibrant Tooltips** resource pack, which can now be toggled on or off.
-- Fixed the tooltip header divider showing up even when the tooltip body was empty.
-- Fixed the missing 3D tool preview.
-- Fixed configuration handling so it no longer resets in rare scenarios.
-- Renamed several config options to decouple them from their category names.
+- Added a new animated **shimmer** effect, used by default for *epic* rarity.
+- Added support for tooltip drop shadows.
+- Improved tooltip title detection – item names should no longer slip into the body text in rare cases.
+- Added `BlankLabelProvider`, allowing labels to be selectively disabled via styles.
+- Added a config option to disable the label (the second header line) for all tooltips.
+- Added a config option to disable drop shadows.
+- Added a config option to control shadow opacity.
+- Integrated the Forge update checker.

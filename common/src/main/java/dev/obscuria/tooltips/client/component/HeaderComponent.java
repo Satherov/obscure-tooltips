@@ -4,6 +4,7 @@ import dev.obscuria.fragmentum.util.color.ARGB;
 import dev.obscuria.fragmentum.util.color.Colors;
 import dev.obscuria.tooltips.client.TooltipState;
 import dev.obscuria.tooltips.client.tooltip.particle.GraphicUtils;
+import dev.obscuria.tooltips.config.ClientConfig;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
@@ -32,8 +33,12 @@ public record HeaderComponent(
 
     @Override
     public void renderText(Font font, int x, int y, Matrix4f matrix, MultiBufferSource.BufferSource source) {
-        title.renderText(font, 22 + x, 1 + y, matrix, source);
-        label.renderText(font, 22 + x, 1 + y + title.getHeight(), matrix, source);
+        if (!ClientConfig.LABELS_ENABLED.get() || label instanceof BlankComponent) {
+            title.renderText(font, 22 + x, 1 + y + 5, matrix, source);
+        } else {
+            title.renderText(font, 22 + x, 1 + y, matrix, source);
+            label.renderText(font, 22 + x, 1 + y + title.getHeight(), matrix, source);
+        }
     }
 
     @Override

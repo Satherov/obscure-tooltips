@@ -17,6 +17,7 @@ public interface LabelProvider {
     ClientTooltipComponent create(ItemStack stack);
 
     static void bootstrap(BootstrapContext<Codec<? extends LabelProvider>> context) {
+        context.register("blank", () -> BlankLabelProvider.CODEC);
         context.register("literal", () -> LiteralLabelProvider.CODEC);
         context.register("translatable", () -> TranslatableLabelProvider.CODEC);
         context.register("rarity", () -> RarityLabelProvider.CODEC);

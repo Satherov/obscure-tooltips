@@ -14,7 +14,6 @@ java {
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
     // https://docs.gradle.org/current/userguide/declaring_repositories.html#declaring_content_exclusively_found_in_one_repository
     exclusiveContent {
@@ -39,17 +38,36 @@ repositories {
         )
         filter { includeGroup('org.parchmentmc.data') }
     }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
     maven {
+        name = "Curse Maven"
         url = "https://cursemaven.com"
     }
     maven {
+        name = "TerraFormers MC"
         url = 'https://maven.terraformersmc.com/releases/'
     }
     maven {
+        name = "BlameJared"
         url = 'https://maven.blamejared.com'
     }
     maven {
+        name = "Fuzs Mod Resources"
         url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
+    }
+    maven {
+        name = "Obscuria"
+        url = "https://raw.githubusercontent.com/ObscuriaLithium/modding/main/maven/"
     }
 }
 
@@ -119,7 +137,8 @@ processResources {
             'modrinth'                     : modrinth,
             'sources'                      : sources,
             'issues'                       : issues,
-            'discord'                      : discord
+            'discord'                      : discord,
+            'update_lookup'                : update_lookup
     ]
 
     var jsonExpandProps = expandProps.collectEntries {
