@@ -69,9 +69,10 @@ public abstract class TooltipState {
         style.panel().get().render(graphics, pos.x(), pos.y(), width, height);
     }
 
+    @SuppressWarnings("deprecation")
     public void renderEffects(GuiGraphics graphics, Vector2ic pos, int width, int height) {
         for (var effect : style.effects()) {
-            effect.renderBack(this, graphics, pos.x(), pos.y(), width, height);
+            graphics.drawManaged(() -> effect.renderBack(this, graphics, pos.x(), pos.y(), width, height));
         }
     }
 

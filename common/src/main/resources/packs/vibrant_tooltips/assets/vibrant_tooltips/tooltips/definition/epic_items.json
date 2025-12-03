@@ -1,0 +1,21 @@
+{
+  "priority": 100,
+  "style": "vibrant_tooltips:rarity_epic",
+  "filter": {
+    "type": "obscure_tooltips:any_of",
+    "terms": [
+      {
+        "type": "obscure_tooltips:rarity",
+        "rarity": "epic"
+      },
+      {
+        "type": "obscure_tooltips:rarity",
+        "rarity": "legendary"
+      },
+      {
+        "type": "obscure_tooltips:rarity",
+        "rarity": "mythic"
+      }
+    ]
+  }
+}

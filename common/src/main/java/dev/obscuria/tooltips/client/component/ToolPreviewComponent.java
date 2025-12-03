@@ -15,7 +15,7 @@ public record ToolPreviewComponent(ItemStack stack) implements ClientTooltipComp
 
     @Override
     public int getWidth(Font font) {
-        return 40;
+        return 30;
     }
 
     @Override
@@ -24,7 +24,7 @@ public record ToolPreviewComponent(ItemStack stack) implements ClientTooltipComp
 
         graphics.drawManaged(() -> {
             graphics.pose().pushPose();
-            graphics.pose().translate(x + 18, y + 30, 500f);
+            graphics.pose().translate(x + 14, y + 30, 500f);
             graphics.pose().scale(2.75f, 2.75f, 2.75f);
             graphics.pose().mulPose(Axis.XP.rotationDegrees(-30));
             graphics.pose().mulPose(Axis.YP.rotationDegrees((float) (System.currentTimeMillis() / 1000.0 % 360.0) * -20f));

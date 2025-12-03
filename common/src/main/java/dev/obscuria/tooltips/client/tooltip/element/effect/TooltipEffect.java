@@ -30,5 +30,6 @@ public interface TooltipEffect {
         context.register("inward_particle", () -> InwardParticleEffect.CODEC);
         context.register("icon_particle", () -> IconParticleEffect.CODEC);
         context.register("shimmer", () -> ShimmerEffect.CODEC);
+        context.register("glint", () -> GlintEffect.CODEC);
     }
 }

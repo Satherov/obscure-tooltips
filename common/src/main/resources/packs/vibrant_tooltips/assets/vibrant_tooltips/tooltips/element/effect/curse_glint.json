@@ -1,0 +1,50 @@
+{
+  "type": "obscure_tooltips:glint",
+  "segments": 100,
+  "clip_waves": true,
+  "clip_rings": true,
+  "waves": [
+    {
+      "color": "#60fa1693",
+      "inner_alpha": 0.95,
+      "outer_alpha": 0.0,
+      "inner_bias": -0.4,
+      "outer_bias": 0.4,
+      "radial_offset": 0.6,
+      "thickness": 0.5,
+      "flow_speed": 1.0,
+      "vertical_fade": true
+    },
+    {
+      "color": "#40e23131",
+      "inner_alpha": 0.3,
+      "outer_alpha": 0.04,
+      "inner_bias": -0.4,
+      "outer_bias": 0.4,
+      "radial_offset": 0.4,
+      "thickness": 0.18,
+      "flow_speed": -0.5,
+      "vertical_fade": false
+    },
+    {
+      "color": "#50e23131",
+      "inner_alpha": 0.04,
+      "outer_alpha": 0.8,
+      "inner_bias": 1.0,
+      "outer_bias": -0.4,
+      "radial_offset": 0.6,
+      "thickness": 0.16,
+      "flow_speed": 0.25,
+      "vertical_fade": false
+    }
+  ],
+  "rings": [
+    {
+      "color": "#50ffabaa",
+      "spin_speed": 0.35,
+      "radius": 0.58,
+      "thickness": 0.1,
+      "arc_offset": 0.0
+    }
+  ]
+}

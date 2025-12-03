@@ -1,4 +1,5 @@
-- Added icon **sound-effect** feature.
-- Added a dedicated epic-item sound effect for Vibrant Tooltips.
-- Added a config option to disable sound effects.
-- Added a config option to adjust sound-effect volume.
+- Added a new **glint** effect, now used by default for enchanted and cursed items!
+- Refined the **shimmer** animation – it is now fully looped.
+- Reduced the space taken by the tool preview area.
+- Adjusted the default content margin from 3 to 2.
+- Fixed blending issues with semi-transparent effects.

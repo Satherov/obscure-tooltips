@@ -113,8 +113,10 @@ public record ShimmerEffect(
             ctrl1Setter.accept(i);
             ctrl2Setter.accept(i);
 
-            final var a1 = ctrlCenter.angle(inner1);
-            final var a2 = ctrlCenter.angle(inner2);
+            final var d1 = new Vector2f(inner1).sub(ctrlCenter); // inner1 - ctrlCenter
+            final var d2 = new Vector2f(inner2).sub(ctrlCenter); // inner2 - ctrlCenter
+            final var a1 = (float) -Math.atan2(d1.y, d1.x);
+            final var a2 = (float) -Math.atan2(d2.y, d2.x);
 
             final var t1 = 0.5f + 0.5f * (float) Math.cos(a1 * frequency + time * speed);
             final var t2 = 0.5f + 0.5f * (float) Math.cos(a2 * frequency + time * speed);

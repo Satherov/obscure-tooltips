@@ -80,7 +80,7 @@ public final class ClientConfig {
                 .defineDouble("shadowOpacity", 0.3, 0.0, 1.0);
         CONTENT_MARGIN = builder
                 .comment("The margin (in pixels) between the tooltip frame and its content.")
-                .defineInt("contentMargin", 3, 0, 16);
+                .defineInt("contentMargin", 2, 0, 16);
         IGNORED_ITEMS = builder
                 .comment("List of item IDs that should be ignored by Obscure Tooltips.")
                 .defineList("ignoredItems", DEFAULT_IGNORED_ITEMS, String.class::isInstance);
