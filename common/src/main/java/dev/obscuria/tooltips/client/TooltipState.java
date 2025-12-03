@@ -4,6 +4,8 @@ import dev.obscuria.tooltips.client.component.BlankComponent;
 import dev.obscuria.tooltips.client.tooltip.TooltipDefinition;
 import dev.obscuria.tooltips.client.tooltip.TooltipLabel;
 import dev.obscuria.tooltips.client.tooltip.TooltipStyle;
+import dev.obscuria.tooltips.client.tooltip.element.SoundTemplate;
+import dev.obscuria.tooltips.config.ClientConfig;
 import net.minecraft.Util;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
@@ -13,14 +15,20 @@ import org.joml.Vector2ic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public abstract class TooltipState {
+
+    private static UUID lastIconSoundUuid = UUID.randomUUID();
+    private static long lastIconSoundTime = 0;
 
     public final ItemStack stack;
     public final TooltipStyle style;
     public final @Nullable TooltipLabel label;
     public final Long startTime;
     public final List<ParticleData> particles;
+    public final UUID uuid = UUID.randomUUID();
+    public boolean isFirstFrame = true;
 
     protected TooltipState(ItemStack stack) {
         this.stack = stack;
@@ -46,6 +54,16 @@ public abstract class TooltipState {
         particles.add(particle);
     }
 
+    public void maybePlayIconSound(SoundTemplate template) {
+        if (!ClientConfig.SOUNDS_ENABLED.get()) return;
+        if (uuid.equals(lastIconSoundUuid)) return;
+        if (Util.getMillis() - startTime < 100) return;
+        if (Util.getMillis() - lastIconSoundTime < 300) return;
+        lastIconSoundTime = Util.getMillis();
+        lastIconSoundUuid = uuid;
+        template.play();
+    }
+
     public void renderPanel(GuiGraphics graphics, Vector2ic pos, int width, int height) {
         if (style.panel().isEmpty()) return;
         style.panel().get().render(graphics, pos.x(), pos.y(), width, height);
@@ -62,7 +80,8 @@ public abstract class TooltipState {
         style.frame().get().render(graphics, pos.x(), pos.y(), width, height);
     }
 
-    public void removeExpiredParticles() {
+    public void update() {
         particles.removeIf(ParticleData::isExpired);
+        isFirstFrame = false;
     }
 }

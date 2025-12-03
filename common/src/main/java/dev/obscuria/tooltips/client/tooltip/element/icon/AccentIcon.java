@@ -4,10 +4,16 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.obscuria.fragmentum.util.easing.Easing;
 import dev.obscuria.tooltips.client.TooltipState;
+import dev.obscuria.tooltips.client.tooltip.element.SoundTemplate;
 import dev.obscuria.tooltips.client.tooltip.element.Transform;
 import net.minecraft.client.gui.GuiGraphics;
 
-public record AccentIcon(Transform transform) implements TooltipIcon {
+import java.util.Optional;
+
+public record AccentIcon(
+        Transform transform,
+        Optional<SoundTemplate> sound
+) implements TooltipIcon {
 
     public static final Codec<AccentIcon> CODEC;
 
@@ -21,6 +27,7 @@ public record AccentIcon(Transform transform) implements TooltipIcon {
         pushTransform(state, transform, graphics, x, y);
         graphics.renderItem(state.stack, 0, 0);
         popTransform(graphics);
+        sound.ifPresent(state::maybePlayIconSound);
     }
 
     @Override
@@ -36,7 +43,8 @@ public record AccentIcon(Transform transform) implements TooltipIcon {
 
     static {
         CODEC = RecordCodecBuilder.create(codec -> codec.group(
-                Transform.CODEC.fieldOf("transform").forGetter(AccentIcon::transform)
+                Transform.CODEC.fieldOf("transform").forGetter(AccentIcon::transform),
+                SoundTemplate.CODEC.optionalFieldOf("sound").forGetter(AccentIcon::sound)
         ).apply(codec, AccentIcon::new));
     }
 }

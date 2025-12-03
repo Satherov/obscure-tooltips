@@ -72,7 +72,7 @@ public final class TooltipRenderer {
 
         lastStack = actualStack;
         actualStack = ItemStack.EMPTY;
-        state.removeExpiredParticles();
+        state.update();
         return true;
     }
 

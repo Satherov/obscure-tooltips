@@ -16,6 +16,9 @@ public final class ClientConfig {
     public static final ConfigValue<Integer> CONTENT_MARGIN;
     public static final ConfigValue<List<? extends String>> IGNORED_ITEMS;
 
+    public static final ConfigValue<Boolean> SOUNDS_ENABLED;
+    public static final ConfigValue<Double> SOUND_VOLUME;
+
     public static final ConfigValue<Boolean> AUTO_WRAPPING_ENABLED;
 
     public static final ConfigValue<Boolean> SCROLL_ENABLED;
@@ -81,6 +84,15 @@ public final class ClientConfig {
         IGNORED_ITEMS = builder
                 .comment("List of item IDs that should be ignored by Obscure Tooltips.")
                 .defineList("ignoredItems", DEFAULT_IGNORED_ITEMS, String.class::isInstance);
+
+        builder.push("Sounds");
+        SOUNDS_ENABLED = builder
+                .comment("Whether Obscure Tooltips should play sound effects.")
+                .defineBoolean("soundsEnabled", true);
+        SOUND_VOLUME = builder
+                .comment("The volume multiplier for tooltip sound effects.")
+                .defineDouble("soundVolume", 1.0, 0.0, 4.0);
+        builder.pop();
 
         builder.push("AutoWrapping");
         AUTO_WRAPPING_ENABLED = builder

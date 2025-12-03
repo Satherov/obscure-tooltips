@@ -66,6 +66,8 @@ public interface TooltipRegistries {
 
     static void init() {
 
+        TooltipSounds.init();
+
         ItemFilter.bootstrap(BootstrapContext.create(REGISTRAR, Key.ITEM_FILTER_TYPE, ObscureTooltips::key));
         LabelProvider.bootstrap(BootstrapContext.create(REGISTRAR, Key.LABEL_PROVIDER_TYPE, ObscureTooltips::key));
         TooltipParticle.bootstrap(BootstrapContext.create(REGISTRAR, Key.TOOLTIP_PARTICLE_TYPE, ObscureTooltips::key));

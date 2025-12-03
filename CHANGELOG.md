@@ -1,1 +1,4 @@
-- Fixed an incorrect rendering order of effects layers.
+- Added icon **sound-effect** feature.
+- Added a dedicated epic-item sound effect for Vibrant Tooltips.
+- Added a config option to disable sound effects.
+- Added a config option to adjust sound-effect volume.
