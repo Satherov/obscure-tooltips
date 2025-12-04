@@ -1,5 +1,7 @@
 package dev.obscuria.tooltips.client;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import dev.obscuria.tooltips.config.ClientConfig;
 import dev.obscuria.tooltips.mixin.ClientTextTooltipAccessor;
 import net.minecraft.client.gui.Font;
@@ -16,6 +18,26 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 public interface TooltipHelper {
+
+    static void enableGlowingRenderer() {
+        RenderSystem.enableBlend();
+        RenderSystem.blendFuncSeparate(
+                GlStateManager.SourceFactor.SRC_ALPHA,
+                GlStateManager.DestFactor.ONE,
+                GlStateManager.SourceFactor.ONE,
+                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        RenderSystem.disableDepthTest();
+        RenderSystem.disableCull();
+        RenderSystem.depthMask(false);
+    }
+
+    static void disableGlowingRenderer() {
+        RenderSystem.depthMask(true);
+        RenderSystem.enableCull();
+        RenderSystem.enableDepthTest();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.disableBlend();
+    }
 
     static int widthOf(List<ClientTooltipComponent> components, Font font) {
         var max = 0;

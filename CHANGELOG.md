@@ -1,5 +1,4 @@
-- Added a new **glint** effect, now used by default for enchanted and cursed items!
-- Refined the **shimmer** animation – it is now fully looped.
-- Reduced the space taken by the tool preview area.
-- Adjusted the default content margin from 3 to 2.
-- Fixed blending issues with semi-transparent effects.
+- Adjusted **glint** effect parameters – it's now much smoother and softer.
+- Improved **shimmer** blending – it should no longer darken content underneath.
+- Fixed incorrect behavior of the `obscure_tooltips:rarity` filter on systems using Turkish locale.
+- Fixed incorrect behavior of the `obscure_tooltips:literal` label

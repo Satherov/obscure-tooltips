@@ -1,11 +1,11 @@
 package dev.obscuria.tooltips.client.tooltip.element.effect;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.obscuria.fragmentum.util.color.ARGB;
+import dev.obscuria.tooltips.client.TooltipHelper;
 import dev.obscuria.tooltips.client.TooltipState;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
@@ -44,15 +44,7 @@ public record GlintEffect(
         final var radius = (float) Math.hypot(width, height) * 0.85f;
         final var timer = state.timeInSeconds() * 0.1f;
 
-        RenderSystem.enableBlend();
-        RenderSystem.blendFuncSeparate(
-                GlStateManager.SourceFactor.SRC_ALPHA,
-                GlStateManager.DestFactor.ONE,
-                GlStateManager.SourceFactor.ONE,
-                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        RenderSystem.disableDepthTest();
-        RenderSystem.disableCull();
-        RenderSystem.depthMask(false);
+        TooltipHelper.enableGlowingRenderer();
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
         final var matrix = graphics.pose().last().pose();
@@ -67,11 +59,7 @@ public record GlintEffect(
         renderRings(buffer, matrix, centerX, centerY, radius, timer);
         if (clipRings) graphics.disableScissor();
 
-        RenderSystem.depthMask(true);
-        RenderSystem.enableCull();
-        RenderSystem.enableDepthTest();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.disableBlend();
+        TooltipHelper.disableGlowingRenderer();
 
         graphics.pose().popPose();
     }
@@ -80,11 +68,9 @@ public record GlintEffect(
         if (waves.isEmpty()) return;
         final var aspect = height / (float) Math.max(1, width);
 
-        for (var waveIndex = 0; waveIndex < waves.size(); ++waveIndex) {
-
-            final var specs = waves.get(waveIndex);
+        for (var specs : waves) {
             final var color = specs.color;
-            final var baseRadius = radius * specs.radialOffset();
+            final var baseRadius = radius * specs.position();
             final var thickness = radius * specs.thickness() * 0.5f;
             final var progress = timer * TAU * specs.flowSpeed();
 
@@ -97,7 +83,7 @@ public record GlintEffect(
                 final var sin = (float) Math.sin(angle);
                 final var cos = (float) Math.cos(angle);
 
-                final var swirl = computeSwirl(angle, progress, waveIndex) * radius;
+                final var swirl = computeSwirl(angle, progress, specs.flowOffset()) * radius;
                 final var ringRadius = baseRadius + swirl;
 
                 final var innerR = ringRadius + thickness * specs.innerBias();
@@ -108,7 +94,7 @@ public record GlintEffect(
                 final var ox = x + cos * outerR;
                 final var oy = y + sin * outerR * aspect;
 
-                final var intensity = computeIntensity(sin, angle, progress, waveIndex, specs.verticalFade());
+                final var intensity = computeIntensity(sin, angle, progress, specs.intensityOffset(), specs.verticalFade());
 
                 final var innerA = color.alpha() * intensity * specs.innerAlpha();
                 final var outerA = color.alpha() * intensity * specs.outerAlpha();
@@ -165,14 +151,14 @@ public record GlintEffect(
         }
     }
 
-    private float computeSwirl(float angle, float progress, float waveIndex) {
-        final var swirl1 = 0.12f * (float) Math.sin(angle * 3f + progress * 2.1f + waveIndex * 0.7f);
+    private float computeSwirl(float angle, float progress, float offset) {
+        final var swirl1 = 0.12f * (float) Math.sin(angle * 3f + progress * 2.1f + offset * 0.7f);
         final var swirl2 = 0.07f * (float) Math.sin(angle * 7f - progress * 1.4f);
         return swirl1 + swirl2;
     }
 
-    private float computeIntensity(float sin, float angle, float progress, float waveIndex, boolean verticalFade) {
-        final var band = 0.5f + 0.5f * (float) Math.sin(angle * 2f - progress * 1.3f + waveIndex);
+    private float computeIntensity(float sin, float angle, float progress, float offset, boolean verticalFade) {
+        final var band = 0.5f + 0.5f * (float) Math.sin(angle * 2f - progress * 1.3f + offset);
         if (verticalFade) {
             final var vertical = Math.max(0f, sin * 0.8f + 0.2f);
             return vertical * (0.4f + 0.6f * band);
@@ -194,10 +180,12 @@ public record GlintEffect(
 
     public record WaveSpecs(
             ARGB color,
+            float position, float thickness,
             float innerAlpha, float innerBias,
             float outerAlpha, float outerBias,
-            float radialOffset, float thickness,
-            float flowSpeed, boolean verticalFade
+            float flowSpeed, float flowOffset,
+            float intensityOffset,
+            boolean verticalFade
     ) {
 
         public static final Codec<WaveSpecs> CODEC;
@@ -205,13 +193,15 @@ public record GlintEffect(
         static {
             CODEC = RecordCodecBuilder.create(codec -> codec.group(
                     ARGB.CODEC.fieldOf("color").forGetter(WaveSpecs::color),
+                    Codec.FLOAT.fieldOf("position").forGetter(WaveSpecs::position),
+                    Codec.FLOAT.fieldOf("thickness").forGetter(WaveSpecs::thickness),
                     Codec.FLOAT.fieldOf("inner_alpha").forGetter(WaveSpecs::innerAlpha),
                     Codec.FLOAT.fieldOf("inner_bias").forGetter(WaveSpecs::innerBias),
                     Codec.FLOAT.fieldOf("outer_alpha").forGetter(WaveSpecs::outerAlpha),
                     Codec.FLOAT.fieldOf("outer_bias").forGetter(WaveSpecs::outerBias),
-                    Codec.FLOAT.fieldOf("radial_offset").forGetter(WaveSpecs::radialOffset),
-                    Codec.FLOAT.fieldOf("thickness").forGetter(WaveSpecs::thickness),
                     Codec.FLOAT.fieldOf("flow_speed").forGetter(WaveSpecs::flowSpeed),
+                    Codec.FLOAT.fieldOf("flow_offset").forGetter(WaveSpecs::flowOffset),
+                    Codec.FLOAT.fieldOf("intensity_offset").forGetter(WaveSpecs::intensityOffset),
                     Codec.BOOL.fieldOf("vertical_fade").forGetter(WaveSpecs::verticalFade)
             ).apply(codec, WaveSpecs::new));
         }

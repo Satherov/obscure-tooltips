@@ -4,6 +4,8 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.Locale;
+
 public record RarityFilter(String rarity) implements ItemFilter {
 
     public static final Codec<RarityFilter> CODEC;
@@ -15,7 +17,7 @@ public record RarityFilter(String rarity) implements ItemFilter {
 
     @Override
     public boolean test(ItemStack stack) {
-        final var rarity = stack.getRarity().name().toLowerCase();
+        final var rarity = stack.getRarity().name().toLowerCase(Locale.US);
         return this.rarity.equals(rarity);
     }
 

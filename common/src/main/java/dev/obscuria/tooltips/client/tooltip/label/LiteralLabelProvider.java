@@ -24,7 +24,7 @@ public record LiteralLabelProvider(String text) implements LabelProvider {
 
     static {
         CODEC = RecordCodecBuilder.create(codec -> codec.group(
-                Codec.STRING.fieldOf("key").forGetter(LiteralLabelProvider::text)
+                Codec.STRING.fieldOf("text").forGetter(LiteralLabelProvider::text)
         ).apply(codec, LiteralLabelProvider::new));
     }
 }

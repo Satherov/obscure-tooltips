@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.obscuria.fragmentum.util.color.ARGB;
+import dev.obscuria.tooltips.client.TooltipHelper;
 import dev.obscuria.tooltips.client.TooltipState;
 import dev.obscuria.tooltips.client.tooltip.particle.GraphicUtils;
 import net.minecraft.client.gui.GuiGraphics;
@@ -64,6 +65,8 @@ public record ShimmerEffect(
         final var buffer = graphics.bufferSource().getBuffer(RenderType.guiOverlay());
         final var time = state.timeInSeconds();
 
+        TooltipHelper.enableGlowingRenderer();
+
         // Top
         renderSide(wSegments,
                 i -> inner1.set(actX + (float) actWidth * i / wSegments, actY),
@@ -95,6 +98,8 @@ public record ShimmerEffect(
                 i -> control1.set(ctrlRight, ctrlTop + ctrlHeight * (i + 1) / hSegments),
                 i -> control2.set(ctrlRight, ctrlTop + ctrlHeight * i / hSegments),
                 true, ctrlCenter, time, matrix, buffer, inner1, inner2, control1, control2, outer1, outer2);
+
+        TooltipHelper.disableGlowingRenderer();
     }
 
     private void renderSide(int segments,
