@@ -24,10 +24,11 @@ public record NbtFilter(
 
     @Override
     public boolean test(ItemStack stack) {
-        assert Minecraft.getInstance().level != null;
+        if (stack.isEmpty()) return false;
+        if (Minecraft.getInstance().level == null) return false;
         final var registryAccess = Minecraft.getInstance().level.registryAccess();
         final var savedItem = (CompoundTag) stack.save(registryAccess);
-        final var components = savedItem.getCompound("Components");
+        final var components = savedItem.getCompound("components");
         return matchExact
                 ? NbtUtils.compareNbt(nbt, components, true)
                 : isSubtagOf(nbt, components);

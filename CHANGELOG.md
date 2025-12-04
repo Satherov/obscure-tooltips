@@ -1,8 +1,2 @@
-- Added a new animated **shimmer** effect, used by default for *epic* rarity.
-- Added support for tooltip drop shadows.
-- Improved tooltip title detection – item names should no longer slip into the body text in rare cases.
-- Added `BlankLabelProvider`, allowing labels to be selectively disabled via styles.
-- Added a config option to disable the label (the second header line) for all tooltips.
-- Added a config option to disable drop shadows.
-- Added a config option to control shadow opacity.
-- Integrated the Forge update checker.
+- Fixed incorrect behavior of the `obscure_tooltips:literal` label
+- Fixed incorrect behavior of the `obscure_tooltips:nbt` filter
