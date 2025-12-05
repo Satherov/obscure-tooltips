@@ -1,7 +1,6 @@
 package dev.obscuria.tooltips.client.component;
 
 import dev.obscuria.fragmentum.util.color.ARGB;
-import dev.obscuria.fragmentum.util.color.Colors;
 import dev.obscuria.tooltips.client.TooltipState;
 import dev.obscuria.tooltips.client.tooltip.particle.GraphicUtils;
 import dev.obscuria.tooltips.config.ClientConfig;
@@ -12,18 +11,16 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import org.joml.Matrix4f;
 
 public record HeaderComponent(
-        boolean drawDelimiter,
         TooltipState state,
         ClientTooltipComponent title,
-        ClientTooltipComponent label
+        ClientTooltipComponent label,
+        boolean drawSeparator,
+        ARGB separatorColor
 ) implements ClientTooltipComponent {
-
-    private static final ARGB SEPARATOR_EDGE = Colors.argbOf(0x00ffffff);
-    private static final ARGB SEPARATOR_CENTER = Colors.argbOf(0x60ffffff);
 
     @Override
     public int getHeight() {
-        return drawDelimiter ? 25 : 22;
+        return drawSeparator ? 25 : 22;
     }
 
     @Override
@@ -47,9 +44,10 @@ public record HeaderComponent(
         state.style.effects().forEach(it -> it.renderIcon(state, graphics, x + 10, y + 10));
         state.style.icon().ifPresent(it -> it.render(state, graphics, x + 10, y + 10));
 
-        if (!drawDelimiter) return;
+        if (!drawSeparator) return;
         final var length = getWidth(font) / 2;
-        GraphicUtils.drawHLine(graphics, x, y + 22, length, SEPARATOR_EDGE, SEPARATOR_CENTER);
-        GraphicUtils.drawHLine(graphics, x + length, y + 22, 1 + length, SEPARATOR_CENTER, SEPARATOR_EDGE);
+        final var edgeColor = separatorColor.withAlpha(0f);
+        GraphicUtils.drawHLine(graphics, x, y + 22, length, edgeColor, separatorColor);
+        GraphicUtils.drawHLine(graphics, x + length, y + 22, 1 + length, separatorColor, edgeColor);
     }
 }

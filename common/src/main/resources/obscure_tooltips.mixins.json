@@ -9,7 +9,8 @@
     "ClientTextTooltipAccessor",
     "MixinGuiGraphics",
     "MixinItemStack",
-    "MixinMouseHandler"
+    "MixinMouseHandler",
+    "MixinMinecraft"
   ],
   "server": [],
   "injectors": {

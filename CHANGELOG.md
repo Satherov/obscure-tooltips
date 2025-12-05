@@ -1,4 +1,4 @@
-- Adjusted **glint** effect parameters – it's now much smoother and softer.
-- Improved **shimmer** blending – it should no longer darken content underneath.
-- Fixed incorrect behavior of the `obscure_tooltips:rarity` filter on systems using Turkish locale.
-- Fixed incorrect behavior of the `obscure_tooltips:literal` label
+- Added a one-time hint about enabling Vibrant Tooltips upon entering the game.
+- Header separator now inherits its color from the panel border.
+- Fixed particle expiration logic to prevent accumulation of invisible instances.
+- Updated rarity key construction and added an extra key format.

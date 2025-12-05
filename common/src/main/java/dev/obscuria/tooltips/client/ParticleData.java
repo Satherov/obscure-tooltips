@@ -21,7 +21,7 @@ public abstract class ParticleData {
 
         final var progress = computeProgress(state);
         final var translation = computeTranslation(state, progress);
-        final var scale = computeScale(state, progress);
+        final var scale = Math.max(0f,  computeScale(state, progress));
         final var rotation = computeRotation(state, progress);
 
         graphics.pose().pushPose();
@@ -31,7 +31,9 @@ public abstract class ParticleData {
         particle.render(graphics, state, this);
         graphics.pose().popPose();
 
-        status = progress <= 1f ? ParticleStatus.ALIVE : ParticleStatus.EXPIRED;
+        status = (state.timeInSeconds() - startTime) < lifetime()
+                ? ParticleStatus.ALIVE
+                : ParticleStatus.EXPIRED;
     }
 
     public float computeProgress(TooltipState state) {
@@ -50,6 +52,10 @@ public abstract class ParticleData {
 
     public float computeRotation(TooltipState state, float progress) {
         return 0f;
+    }
+
+    public float lifetime() {
+        return 1f;
     }
 
     public boolean isExpired() {

@@ -2,6 +2,7 @@ package dev.obscuria.tooltips.client.tooltip.element.panel;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.obscuria.fragmentum.util.color.ARGB;
 import dev.obscuria.tooltips.client.tooltip.element.QuadPalette;
 import dev.obscuria.tooltips.client.tooltip.particle.GraphicUtils;
 import dev.obscuria.tooltips.config.ClientConfig;
@@ -28,6 +29,11 @@ public record ColorRectPanel(
         GraphicUtils.drawHLine(graphics, x - 3, y + height + 3, width + 6, background.bottomLeft(), background.bottomRight());
         GraphicUtils.drawVLine(graphics, x - 4, y - 3, height + 6, background.topLeft(), background.bottomLeft());
         GraphicUtils.drawVLine(graphics, x + width + 3, y - 3, height + 6, background.topRight(), background.bottomRight());
+    }
+
+    @Override
+    public ARGB separatorColor() {
+        return border.topLeft().lerp(border.bottomRight(), 0.5f);
     }
 
     private void dropShadow(GuiGraphics graphics, int x, int y, int width, int height) {

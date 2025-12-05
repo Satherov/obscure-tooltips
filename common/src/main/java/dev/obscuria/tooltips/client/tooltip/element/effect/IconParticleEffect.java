@@ -63,6 +63,11 @@ public record IconParticleEffect(TooltipParticle particle) implements TooltipEff
         public float computeRotation(TooltipState state, float progress) {
             return progress * 2f;
         }
+
+        @Override
+        public float lifetime() {
+            return super.lifetime() * 2f;
+        }
     }
 
     static {

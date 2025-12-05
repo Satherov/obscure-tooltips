@@ -14,6 +14,7 @@ public final class ClientConfig {
     public static final ConfigValue<Boolean> SHADOWS_ENABLED;
     public static final ConfigValue<Double> SHADOW_OPACITY;
     public static final ConfigValue<Integer> CONTENT_MARGIN;
+    public static final ConfigValue<Boolean> SHOW_VIBRANT_TOOLTIPS_HINT;
     public static final ConfigValue<List<? extends String>> IGNORED_ITEMS;
 
     public static final ConfigValue<Boolean> SOUNDS_ENABLED;
@@ -81,6 +82,11 @@ public final class ClientConfig {
         CONTENT_MARGIN = builder
                 .comment("The margin (in pixels) between the tooltip frame and its content.")
                 .defineInt("contentMargin", 2, 0, 16);
+        SHOW_VIBRANT_TOOLTIPS_HINT = builder
+                .comment(
+                        "Whether to show a hint about enabling the built-in Vibrant Tooltips resource pack on game start.",
+                        "Automatically disabled after being shown once.")
+                .defineBoolean("showVibrantTooltipsHint", true);
         IGNORED_ITEMS = builder
                 .comment("List of item IDs that should be ignored by Obscure Tooltips.")
                 .defineList("ignoredItems", DEFAULT_IGNORED_ITEMS, String.class::isInstance);

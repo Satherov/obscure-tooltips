@@ -28,9 +28,10 @@ public record RarityLabelProvider() implements LabelProvider {
     }
 
     private String makeRarityKey(Rarity rarity) {
-        final var name = rarity.name().toLowerCase(Locale.US).replaceAll(":", ".");
-        final var shortKey = "rarity." + name;
-        if (I18n.exists(shortKey)) return shortKey;
-        return "rarity." + name + ".name";
+        final var name = rarity.toString().toLowerCase(Locale.US).replaceAll(":", ".");
+        if (I18n.exists(name)) return name;
+        final var key1 = "rarity.%s.name".formatted(name);
+        if (I18n.exists(key1)) return key1;
+        return "rarity.%s".formatted(name);
     }
 }
