@@ -8,7 +8,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLEnvironment;
 
-@Mod(ObscureTooltips.MOD_ID)
+@Mod(ObscureTooltips.MODID)
 public final class NeoObscureTooltips {
 
     public NeoObscureTooltips(IEventBus eventBus) {

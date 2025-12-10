@@ -14,7 +14,6 @@ java {
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
     exclusiveContent {
         forRepository {
@@ -37,6 +36,10 @@ repositories {
                 }
         )
         filter { includeGroup('org.parchmentmc.data') }
+    }
+    maven {
+        name = "ObscuriaLocal"
+        url = uri("/Users/obscuria/Modding/maven")
     }
     maven {
         name = "Obscuria"

@@ -124,6 +124,6 @@ public final class ClientConfig {
                 .defineList("toolPreviewBlacklist", List.of(), () -> "minecraft:trident", String.class::isInstance);
         builder.pop();
 
-        builder.buildClient(ObscureTooltips.MOD_ID);
+        builder.buildClient(ObscureTooltips.MODID);
     }
 }

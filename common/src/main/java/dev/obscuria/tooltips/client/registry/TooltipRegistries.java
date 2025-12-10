@@ -23,7 +23,7 @@ import net.minecraft.resources.ResourceKey;
 
 public interface TooltipRegistries {
 
-    Registrar REGISTRAR = FragmentumRegistry.registrar(ObscureTooltips.MOD_ID);
+    Registrar REGISTRAR = FragmentumRegistry.registrar(ObscureTooltips.MODID);
 
     DelegatedRegistry<MapCodec<? extends ItemFilter>> ITEM_FILTER_TYPE = REGISTRAR.createRegistry(Key.ITEM_FILTER_TYPE);
     DelegatedRegistry<MapCodec<? extends LabelProvider>> LABEL_PROVIDER_TYPE = REGISTRAR.createRegistry(Key.LABEL_PROVIDER_TYPE);

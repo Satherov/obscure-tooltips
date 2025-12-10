@@ -13,12 +13,12 @@ import org.slf4j.LoggerFactory;
 
 public interface ObscureTooltips {
 
-    String MOD_ID = "obscure_tooltips";
-    String MOD_NAME = "Obscure Tooltips";
-    Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
+    String MODID = "obscure_tooltips";
+    String DISPLAY_NAME = "Obscure Tooltips";
+    Logger LOGGER = LoggerFactory.getLogger(DISPLAY_NAME);
 
     static ResourceLocation key(String name) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
+        return ResourceLocation.fromNamespaceAndPath(MODID, name);
     }
 
     static void init() {
@@ -28,6 +28,6 @@ public interface ObscureTooltips {
         BuiltInPackBuilder.resourcePack("packs/vibrant_tooltips")
                 .displayName(Component.literal("Vibrant Tooltips"))
                 .packSource(PackSource.BUILT_IN)
-                .register(MOD_ID);
+                .register(ObscureTooltips.class, MODID);
     }
 }

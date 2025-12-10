@@ -1,2 +1,1 @@
-- Fixed incorrect behavior of the `obscure_tooltips:literal` label
-- Fixed incorrect behavior of the `obscure_tooltips:nbt` filter
+- Migrated to the newest Fragmentum release with its updated resource-handling API.
