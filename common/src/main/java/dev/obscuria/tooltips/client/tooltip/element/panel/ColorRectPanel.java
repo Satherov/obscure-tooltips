@@ -25,15 +25,15 @@ public record ColorRectPanel(
         dropShadow(graphics, x - 3, y - 3, width + 6, height + 6);
         GraphicUtils.drawRect(graphics, x - 3, y - 3, width + 6, height + 6, background);
         GraphicUtils.drawFrame(graphics, x - 3, y - 3, width + 6, height + 6, border);
-        GraphicUtils.drawHLine(graphics, x - 3, y - 4, width + 6, background.topLeft(), background.topRight());
-        GraphicUtils.drawHLine(graphics, x - 3, y + height + 3, width + 6, background.bottomLeft(), background.bottomRight());
-        GraphicUtils.drawVLine(graphics, x - 4, y - 3, height + 6, background.topLeft(), background.bottomLeft());
-        GraphicUtils.drawVLine(graphics, x + width + 3, y - 3, height + 6, background.topRight(), background.bottomRight());
+        GraphicUtils.drawHLine(graphics, x - 3, y - 4, width + 6, background.topLeft().get(), background.topRight().get());
+        GraphicUtils.drawHLine(graphics, x - 3, y + height + 3, width + 6, background.bottomLeft().get(), background.bottomRight().get());
+        GraphicUtils.drawVLine(graphics, x - 4, y - 3, height + 6, background.topLeft().get(), background.bottomLeft().get());
+        GraphicUtils.drawVLine(graphics, x + width + 3, y - 3, height + 6, background.topRight().get(), background.bottomRight().get());
     }
 
     @Override
     public ARGB separatorColor() {
-        return border.topLeft().lerp(border.bottomRight(), 0.5f);
+        return border.topLeft().get().lerp(border.bottomRight().get(), 0.5f);
     }
 
     private void dropShadow(GuiGraphics graphics, int x, int y, int width, int height) {

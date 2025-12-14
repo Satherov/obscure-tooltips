@@ -4,9 +4,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.obscuria.fragmentum.util.color.ARGB;
 import dev.obscuria.tooltips.client.TooltipHelper;
 import dev.obscuria.tooltips.client.TooltipState;
+import dev.obscuria.tooltips.config.ARGBProvider;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import org.joml.Matrix4f;
@@ -69,7 +69,7 @@ public record GlintEffect(
         final var aspect = height / (float) Math.max(1, width);
 
         for (var specs : waves) {
-            final var color = specs.color;
+            final var color = specs.color.get();
             final var baseRadius = radius * specs.position();
             final var thickness = radius * specs.thickness() * 0.5f;
             final var progress = timer * TAU * specs.flowSpeed();
@@ -113,7 +113,7 @@ public record GlintEffect(
         for (var ringIndex = 0; ringIndex < rings.size(); ringIndex++) {
 
             final var specs = rings.get(ringIndex);
-            final var color = specs.color();
+            final var color = specs.color.get();
             final var baseRadius = radius * specs.radius();
             final var thickness = radius * specs.thickness();
             final var progress = timer * TAU * specs.spinSpeed();
@@ -179,7 +179,7 @@ public record GlintEffect(
     }
 
     public record WaveSpecs(
-            ARGB color,
+            ARGBProvider color,
             float position, float thickness,
             float innerAlpha, float innerBias,
             float outerAlpha, float outerBias,
@@ -192,7 +192,7 @@ public record GlintEffect(
 
         static {
             CODEC = RecordCodecBuilder.create(codec -> codec.group(
-                    ARGB.CODEC.fieldOf("color").forGetter(WaveSpecs::color),
+                    ARGBProvider.CODEC.fieldOf("color").forGetter(WaveSpecs::color),
                     Codec.FLOAT.fieldOf("position").forGetter(WaveSpecs::position),
                     Codec.FLOAT.fieldOf("thickness").forGetter(WaveSpecs::thickness),
                     Codec.FLOAT.fieldOf("inner_alpha").forGetter(WaveSpecs::innerAlpha),
@@ -208,7 +208,7 @@ public record GlintEffect(
     }
 
     public record RingSpecs(
-            ARGB color,
+            ARGBProvider color,
             float spinSpeed, float radius,
             float thickness, float arcOffset
     ) {
@@ -217,7 +217,7 @@ public record GlintEffect(
 
         static {
             CODEC = RecordCodecBuilder.create(codec -> codec.group(
-                    ARGB.CODEC.fieldOf("color").forGetter(RingSpecs::color),
+                    ARGBProvider.CODEC.fieldOf("color").forGetter(RingSpecs::color),
                     Codec.FLOAT.fieldOf("spin_speed").forGetter(RingSpecs::spinSpeed),
                     Codec.FLOAT.fieldOf("radius").forGetter(RingSpecs::radius),
                     Codec.FLOAT.fieldOf("thickness").forGetter(RingSpecs::thickness),

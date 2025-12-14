@@ -20,19 +20,65 @@ public final class ClientConfig {
     public static final ConfigValue<Boolean> SOUNDS_ENABLED;
     public static final ConfigValue<Double> SOUND_VOLUME;
 
-    public static final ConfigValue<Boolean> AUTO_WRAPPING_ENABLED;
-
+    public static final ConfigValue<Boolean> AUTO_WRAP_ENABLED;
     public static final ConfigValue<Boolean> SCROLL_ENABLED;
     public static final ConfigValue<Integer> SCROLL_SPEED;
     public static final ConfigValue<Integer> SCROLL_MARGIN;
 
     public static final ConfigValue<Boolean> ARMOR_PREVIEW_ENABLED;
+    public static final ConfigValue<Integer> ARMOR_PREVIEW_WIDTH;
     public static final ConfigValue<List<? extends String>> ARMOR_PREVIEW_WHITELIST;
     public static final ConfigValue<List<? extends String>> ARMOR_PREVIEW_BLACKLIST;
-
     public static final ConfigValue<Boolean> TOOL_PREVIEW_ENABLED;
+    public static final ConfigValue<Integer> TOOL_PREVIEW_WIDTH;
     public static final ConfigValue<List<? extends String>> TOOL_PREVIEW_WHITELIST;
     public static final ConfigValue<List<? extends String>> TOOL_PREVIEW_BLACKLIST;
+
+    public static final ConfigValue<String> DEFAULT_PANEL_BACKGROUND_TOP;
+    public static final ConfigValue<String> DEFAULT_PANEL_BACKGROUND_BOTTOM;
+    public static final ConfigValue<String> DEFAULT_PANEL_BORDER_TOP;
+    public static final ConfigValue<String> DEFAULT_PANEL_BORDER_BOTTOM;
+
+    public static final ConfigValue<Boolean> UNCOMMON_STYLE_ENABLED;
+    public static final ConfigValue<String> UNCOMMON_PANEL_BACKGROUND_TOP;
+    public static final ConfigValue<String> UNCOMMON_PANEL_BACKGROUND_BOTTOM;
+    public static final ConfigValue<String> UNCOMMON_PANEL_BORDER_TOP;
+    public static final ConfigValue<String> UNCOMMON_PANEL_BORDER_BOTTOM;
+
+    public static final ConfigValue<Boolean> RARE_STYLE_ENABLED;
+    public static final ConfigValue<String> RARE_PANEL_BACKGROUND_TOP;
+    public static final ConfigValue<String> RARE_PANEL_BACKGROUND_BOTTOM;
+    public static final ConfigValue<String> RARE_PANEL_BORDER_TOP;
+    public static final ConfigValue<String> RARE_PANEL_BORDER_BOTTOM;
+
+    public static final ConfigValue<Boolean> EPIC_STYLE_ENABLED;
+    public static final ConfigValue<String> EPIC_PANEL_BACKGROUND_TOP;
+    public static final ConfigValue<String> EPIC_PANEL_BACKGROUND_BOTTOM;
+    public static final ConfigValue<String> EPIC_PANEL_BORDER_TOP;
+    public static final ConfigValue<String> EPIC_PANEL_BORDER_BOTTOM;
+    public static final ConfigValue<String> EPIC_RAY_GLOW_PRIMARY;
+    public static final ConfigValue<String> EPIC_RAY_GLOW_SECONDARY;
+    public static final ConfigValue<String> EPIC_SHIMMER_INNER;
+    public static final ConfigValue<String> EPIC_SHIMMER_OUTER;
+    public static final ConfigValue<String> EPIC_SHIMMER_ACCENT;
+
+    public static final ConfigValue<Boolean> ENCHANTED_STYLE_ENABLED;
+    public static final ConfigValue<String> ENCHANTED_PARTICLE_CENTER;
+    public static final ConfigValue<String> ENCHANTED_PARTICLE_EDGE;
+    public static final ConfigValue<String> ENCHANTED_GLINT_PRIMARY_WAVE;
+    public static final ConfigValue<String> ENCHANTED_GLINT_PRIMARY_WAVE_GLOW;
+    public static final ConfigValue<String> ENCHANTED_GLINT_SECONDARY_WAVE;
+    public static final ConfigValue<String> ENCHANTED_GLINT_SECONDARY_WAVE_GLOW;
+    public static final ConfigValue<String> ENCHANTED_GLINT_RING;
+
+    public static final ConfigValue<Boolean> CURSED_STYLE_ENABLED;
+    public static final ConfigValue<String> CURSED_PARTICLE_CENTER;
+    public static final ConfigValue<String> CURSED_PARTICLE_EDGE;
+    public static final ConfigValue<String> CURSED_GLINT_PRIMARY_WAVE;
+    public static final ConfigValue<String> CURSED_GLINT_PRIMARY_WAVE_GLOW;
+    public static final ConfigValue<String> CURSED_GLINT_SECONDARY_WAVE;
+    public static final ConfigValue<String> CURSED_GLINT_SECONDARY_WAVE_GLOW;
+    public static final ConfigValue<String> CURSED_GLINT_RING;
 
     private static final List<String> DEFAULT_IGNORED_ITEMS = List.of("quality_equipment:reforge_gui_button");
     private static final List<String> DEFAULT_TOOL_PREVIEW_WHITELIST = List.of("minecraft:trident", "minecraft:bow", "minecraft:crossbow");
@@ -100,13 +146,10 @@ public final class ClientConfig {
                 .defineDouble("soundVolume", 1.0, 0.0, 4.0);
         builder.pop();
 
-        builder.push("AutoWrapping");
-        AUTO_WRAPPING_ENABLED = builder
+        builder.push("Scrolling-and-Wrapping");
+        AUTO_WRAP_ENABLED = builder
                 .comment("Whether Obscure Tooltips should wrap lines in tooltips.")
-                .defineBoolean("autoWrappingEnabled", true);
-        builder.pop();
-
-        builder.push("Scrolling");
+                .defineBoolean("autoWrapEnabled", true);
         SCROLL_ENABLED = builder
                 .comment("Whether long tooltips should become scrollable when they exceed the screen height.")
                 .defineBoolean("scrollEnabled", true);
@@ -118,28 +161,173 @@ public final class ClientConfig {
                 .defineInt("scrollMargin", 10, 0, 64);
         builder.pop();
 
-        builder.push("ArmorPreview");
+        builder.push("Model-Preview");
         ARMOR_PREVIEW_ENABLED = builder
                 .comment("Whether Obscure Tooltips should display 3D armor previews.")
                 .defineBoolean("armorPreviewEnabled", true);
+        ARMOR_PREVIEW_WIDTH = builder
+                .comment("Width of the 3D armor preview in pixels.")
+                .defineInt("armorPreviewWidth", 40, 16, 128);
         ARMOR_PREVIEW_WHITELIST = builder
                 .comment("List of item IDs that should always display a 3D armor preview.")
                 .defineList("armorPreviewWhitelist", List.of(), String.class::isInstance);
         ARMOR_PREVIEW_BLACKLIST = builder
                 .comment("List of item IDs that should never display a 3D armor preview.")
                 .defineList("armorPreviewBlacklist", List.of(), String.class::isInstance);
-        builder.pop();
-
-        builder.push("ToolPreview");
         TOOL_PREVIEW_ENABLED = builder
                 .comment("Whether Obscure Tooltips should display 3D tool/weapon previews.")
-                .defineBoolean("toolPreviewEnabled", false);
+                .defineBoolean("toolPreviewEnabled", true);
+        TOOL_PREVIEW_WIDTH = builder
+                .comment("Width of the 3D tool/weapon preview in pixels.")
+                .defineInt("toolPreviewWidth", 30, 16, 128);
         TOOL_PREVIEW_WHITELIST = builder
                 .comment("List of item IDs that should always display a 3D tool/weapon preview.")
                 .defineList("toolPreviewWhitelist", DEFAULT_TOOL_PREVIEW_WHITELIST, String.class::isInstance);
         TOOL_PREVIEW_BLACKLIST = builder
                 .comment("List of item IDs that should never display a 3D tool/weapon preview.")
                 .defineList("toolPreviewBlacklist", List.of(), String.class::isInstance);
+        builder.pop();
+
+        builder.push("Styles");
+
+        builder.push("1-Default");
+        DEFAULT_PANEL_BACKGROUND_TOP = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("defaultPanelBackgroundTop", "#F0100010");
+        DEFAULT_PANEL_BACKGROUND_BOTTOM = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("defaultPanelBackgroundBottom", "#F0100010");
+        DEFAULT_PANEL_BORDER_TOP = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("defaultPanelBorderTop", "#505000FF");
+        DEFAULT_PANEL_BORDER_BOTTOM = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("defaultPanelBorderBottom", "#5028007F");
+        builder.pop();
+
+        builder.push("2-Uncommon-Items");
+        UNCOMMON_STYLE_ENABLED = builder
+                .comment("Whether Obscure Tooltips should display a unique style for uncommon items.")
+                .defineBoolean("uncommonStyleEnabled", true);
+        UNCOMMON_PANEL_BACKGROUND_TOP = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("uncommonPanelBackgroundTop", "#F0100010");
+        UNCOMMON_PANEL_BACKGROUND_BOTTOM = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("uncommonPanelBackgroundBottom", "#F0100010");
+        UNCOMMON_PANEL_BORDER_TOP = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("uncommonPanelBorderTop", "#80FF9019");
+        UNCOMMON_PANEL_BORDER_BOTTOM = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("uncommonPanelBorderBottom", "#6075350B");
+        builder.pop();
+
+        builder.push("3-Rare-Items");
+        RARE_STYLE_ENABLED = builder
+                .comment("Whether Obscure Tooltips should display a unique style for rare items.")
+                .defineBoolean("rareStyleEnabled", true);
+        RARE_PANEL_BACKGROUND_TOP = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("rarePanelBackgroundTop", "#F0100010");
+        RARE_PANEL_BACKGROUND_BOTTOM = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("rarePanelBackgroundBottom", "#F0100010");
+        RARE_PANEL_BORDER_TOP = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("rarePanelBorderTop", "#80BBBBCC");
+        RARE_PANEL_BORDER_BOTTOM = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("rarePanelBorderBottom", "#60606070");
+        builder.pop();
+
+        builder.push("4-Epic-Items");
+        EPIC_STYLE_ENABLED = builder
+                .comment("Whether Obscure Tooltips should display a unique style for epic items.")
+                .defineBoolean("epicStyleEnabled", true);
+        EPIC_PANEL_BACKGROUND_TOP = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("epicPanelBackgroundTop", "#F0100010");
+        EPIC_PANEL_BACKGROUND_BOTTOM = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("epicPanelBackgroundBottom", "#F0100010");
+        EPIC_PANEL_BORDER_TOP = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("epicPanelBorderTop", "#80FFBB00");
+        EPIC_PANEL_BORDER_BOTTOM = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("epicPanelBorderBottom", "#60AA5000");
+        EPIC_RAY_GLOW_PRIMARY = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("epicRayGlowPrimary", "#FFF00FFF");
+        EPIC_RAY_GLOW_SECONDARY = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("epicRayGlowSecondary", "#FFFF5E0F");
+        EPIC_SHIMMER_INNER = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("epicShimmerInner", "#30F00FFF");
+        EPIC_SHIMMER_OUTER = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("epicShimmerOuter", "#00FF00FF");
+        EPIC_SHIMMER_ACCENT = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("epicShimmerAccent", "#BBF88FFF");
+        builder.pop();
+
+        builder.push("5-Enchanted-Items");
+        ENCHANTED_STYLE_ENABLED = builder
+                .comment("Whether Obscure Tooltips should display a unique style for enchanted items.")
+                .defineBoolean("enchantedStyleEnabled", true);
+        ENCHANTED_PARTICLE_CENTER = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("enchantedParticleCenter", "#80FF80FF");
+        ENCHANTED_PARTICLE_EDGE = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("enchantedParticleEdge", "#00AA40AA");
+        ENCHANTED_GLINT_PRIMARY_WAVE = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("enchantedGlintPrimaryWave", "#60FABF16");
+        ENCHANTED_GLINT_PRIMARY_WAVE_GLOW = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("enchantedGlintPrimaryWaveGlow", "#40FA9F16");
+        ENCHANTED_GLINT_SECONDARY_WAVE = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("enchantedGlintSecondaryWave", "#50D816FA");
+        ENCHANTED_GLINT_SECONDARY_WAVE_GLOW = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("enchantedGlintSecondaryWaveGlow", "#30D816FA");
+        ENCHANTED_GLINT_RING = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("enchantedGlintRing", "#50FFAAFF");
+        builder.pop();
+
+        builder.push("6-Cursed-Items");
+        CURSED_STYLE_ENABLED = builder
+                .comment("Whether Obscure Tooltips should display a unique style for cursed items.")
+                .defineBoolean("cursedStyleEnabled", true);
+        CURSED_PARTICLE_CENTER = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("cursedParticleCenter", "#80FF2080");
+        CURSED_PARTICLE_EDGE = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("cursedParticleEdge", "#00AA2040");
+        CURSED_GLINT_PRIMARY_WAVE = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("cursedGlintPrimaryWave", "#60FA1693");
+        CURSED_GLINT_PRIMARY_WAVE_GLOW = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("cursedGlintPrimaryWaveGlow", "#40FA1679");
+        CURSED_GLINT_SECONDARY_WAVE = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("cursedGlintSecondaryWave", "#50E23131");
+        CURSED_GLINT_SECONDARY_WAVE_GLOW = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("cursedGlintSecondaryWaveGlow", "#30E23131");
+        CURSED_GLINT_RING = builder
+                .comment("Color in #AARRGGBB format.")
+                .defineString("cursedGlintRing", "#50FFABAA");
+        builder.pop();
+
         builder.pop();
 
         builder.buildClient(ObscureTooltips.MOD_ID);

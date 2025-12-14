@@ -18,7 +18,6 @@ public interface TooltipParticle {
     void render(GuiGraphics graphics, TooltipState state, ParticleData data);
 
     static void bootstrap(BootstrapContext<Codec<? extends TooltipParticle>> context) {
-
         context.register("texture", () -> TextureParticle.CODEC);
         context.register("line", () -> LineParticle.CODEC);
     }

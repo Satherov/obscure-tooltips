@@ -1,4 +1,2 @@
-- Added a one-time hint about enabling Vibrant Tooltips upon entering the game.
-- Header separator now inherits its color from the panel border.
-- Fixed particle expiration logic to prevent accumulation of invisible instances.
-- Updated rarity key construction and added an extra key format.
+- Added **42 new configuration options** for customizing built-in styles. This does not replace the extensive customization available through resource packs, but provides an easier way for regular users to fine-tune visuals.
+- Added a new style for **uncommon** rarity items.

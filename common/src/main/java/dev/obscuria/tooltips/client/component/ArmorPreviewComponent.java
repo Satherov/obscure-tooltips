@@ -3,6 +3,7 @@ package dev.obscuria.tooltips.client.component;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Axis;
+import dev.obscuria.tooltips.config.ClientConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -18,7 +19,7 @@ public record ArmorPreviewComponent(ArmorStand armorStand) implements ClientTool
 
     @Override
     public int getWidth(Font font) {
-        return 40;
+        return ClientConfig.ARMOR_PREVIEW_WIDTH.get();
     }
 
     @Override
@@ -26,7 +27,8 @@ public record ArmorPreviewComponent(ArmorStand armorStand) implements ClientTool
     public void renderImage(Font font, int x, int y, GuiGraphics graphics) {
 
         graphics.drawManaged(() -> {
-            graphics.pose().translate(x + 18, y + 57, 500f);
+            final var widthOffset = Math.round(getWidth(font) * 0.46);
+            graphics.pose().translate(x + widthOffset - 2, y + 57, 500f);
             graphics.pose().scale(-30, -30, 30);
             graphics.pose().mulPose(Axis.XP.rotationDegrees(25));
             graphics.pose().mulPose(Axis.YP.rotationDegrees((float) (System.currentTimeMillis() / 1000.0 % 360.0) * 20f));

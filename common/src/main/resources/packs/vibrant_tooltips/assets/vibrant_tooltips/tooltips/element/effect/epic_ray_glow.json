@@ -1,5 +1,5 @@
 {
   "type": "obscure_tooltips:ray_glow",
-  "primary_color": "FFF00FFF",
-  "secondary_color": "FFFF5E0F"
+  "primary_color": "@EPIC_RAY_GLOW_PRIMARY",
+  "secondary_color": "@EPIC_RAY_GLOW_SECONDARY"
 }

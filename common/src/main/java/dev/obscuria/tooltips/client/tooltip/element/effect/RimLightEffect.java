@@ -40,25 +40,25 @@ public record RimLightEffect(
         final var scale = 0.8f + 0.4f * (float) Math.cos(state.timeInSeconds());
         final var offset = Math.min(pWidth, pHeight) * 0.25f * scale;
 
-        GraphicUtils.color(buffer.vertex(matrix, pX, pY, 0f), outerPalette.topLeft()).endVertex();
-        GraphicUtils.color(buffer.vertex(matrix, pX + offset, pY + offset, 0f), innerPalette.topLeft()).endVertex();
-        GraphicUtils.color(buffer.vertex(matrix, pX + pWidth - offset, pY + offset, 0f), innerPalette.topRight()).endVertex();
-        GraphicUtils.color(buffer.vertex(matrix, pX + pWidth, pY, 0f), outerPalette.topRight()).endVertex();
+        GraphicUtils.color(buffer.vertex(matrix, pX, pY, 0f), outerPalette.topLeft().get()).endVertex();
+        GraphicUtils.color(buffer.vertex(matrix, pX + offset, pY + offset, 0f), innerPalette.topLeft().get()).endVertex();
+        GraphicUtils.color(buffer.vertex(matrix, pX + pWidth - offset, pY + offset, 0f), innerPalette.topRight().get()).endVertex();
+        GraphicUtils.color(buffer.vertex(matrix, pX + pWidth, pY, 0f), outerPalette.topRight().get()).endVertex();
 
-        GraphicUtils.color(buffer.vertex(matrix, pX + offset, pY + pHeight - offset, 0f), innerPalette.bottomLeft()).endVertex();
-        GraphicUtils.color(buffer.vertex(matrix, pX, pY + pHeight, 0f), outerPalette.bottomLeft()).endVertex();
-        GraphicUtils.color( buffer.vertex(matrix, pX + pWidth, pY + pHeight, 0f), outerPalette.bottomRight()).endVertex();
-        GraphicUtils.color(buffer.vertex(matrix, pX + pWidth - offset, pY + pHeight - offset, 0f), innerPalette.bottomRight()).endVertex();
+        GraphicUtils.color(buffer.vertex(matrix, pX + offset, pY + pHeight - offset, 0f), innerPalette.bottomLeft().get()).endVertex();
+        GraphicUtils.color(buffer.vertex(matrix, pX, pY + pHeight, 0f), outerPalette.bottomLeft().get()).endVertex();
+        GraphicUtils.color( buffer.vertex(matrix, pX + pWidth, pY + pHeight, 0f), outerPalette.bottomRight().get()).endVertex();
+        GraphicUtils.color(buffer.vertex(matrix, pX + pWidth - offset, pY + pHeight - offset, 0f), innerPalette.bottomRight().get()).endVertex();
 
-        GraphicUtils.color(buffer.vertex(matrix, pX, pY, 0f), outerPalette.topLeft()).endVertex();
-        GraphicUtils.color( buffer.vertex(matrix, pX, pY + pHeight, 0f), outerPalette.bottomLeft()).endVertex();
-        GraphicUtils.color( buffer.vertex(matrix, pX + offset, pY + pHeight - offset, 0f), innerPalette.bottomLeft()).endVertex();
-        GraphicUtils.color( buffer.vertex(matrix, pX + offset, pY + offset, 0f), innerPalette.topLeft()).endVertex();
+        GraphicUtils.color(buffer.vertex(matrix, pX, pY, 0f), outerPalette.topLeft().get()).endVertex();
+        GraphicUtils.color( buffer.vertex(matrix, pX, pY + pHeight, 0f), outerPalette.bottomLeft().get()).endVertex();
+        GraphicUtils.color( buffer.vertex(matrix, pX + offset, pY + pHeight - offset, 0f), innerPalette.bottomLeft().get()).endVertex();
+        GraphicUtils.color( buffer.vertex(matrix, pX + offset, pY + offset, 0f), innerPalette.topLeft().get()).endVertex();
 
-        GraphicUtils.color( buffer.vertex(matrix, pX + pWidth - offset, pY + offset, 0f), innerPalette.topRight()).endVertex();
-        GraphicUtils.color(  buffer.vertex(matrix, pX + pWidth - offset, pY + pHeight - offset, 0f), innerPalette.bottomRight()).endVertex();
-        GraphicUtils.color( buffer.vertex(matrix, pX + pWidth, pY + pHeight, 0f), outerPalette.bottomRight()).endVertex();
-        GraphicUtils.color( buffer.vertex(matrix, pX + pWidth, pY, 0f), outerPalette.topRight()).endVertex();
+        GraphicUtils.color( buffer.vertex(matrix, pX + pWidth - offset, pY + offset, 0f), innerPalette.topRight().get()).endVertex();
+        GraphicUtils.color(  buffer.vertex(matrix, pX + pWidth - offset, pY + pHeight - offset, 0f), innerPalette.bottomRight().get()).endVertex();
+        GraphicUtils.color( buffer.vertex(matrix, pX + pWidth, pY + pHeight, 0f), outerPalette.bottomRight().get()).endVertex();
+        GraphicUtils.color( buffer.vertex(matrix, pX + pWidth, pY, 0f), outerPalette.topRight().get()).endVertex();
     }
 
     static {

@@ -8,8 +8,6 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.IOException;
-
 public final class TooltipManager implements ResourceManagerReloadListener {
 
     public static final TooltipManager INSTANCE = new TooltipManager();
@@ -33,7 +31,7 @@ public final class TooltipManager implements ResourceManagerReloadListener {
     private void loadResource(ResourceKind kind, ResourceLocation path, Resource resource) {
         try {
             kind.spec.load(extractKey(kind, path), JsonParser.parseReader(resource.openAsReader()));
-        } catch (IOException exception) {
+        } catch (Exception exception) {
             ObscureTooltips.LOGGER.error("Failed to load resource {}: {}", path, exception.getMessage());
         }
     }

@@ -5,11 +5,11 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Axis;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.obscuria.fragmentum.util.color.ARGB;
 import dev.obscuria.fragmentum.util.easing.Easing;
 import dev.obscuria.tooltips.ObscureTooltips;
 import dev.obscuria.tooltips.client.TooltipState;
 import dev.obscuria.tooltips.client.tooltip.particle.GraphicUtils;
+import dev.obscuria.tooltips.config.ARGBProvider;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -17,8 +17,8 @@ import net.minecraft.util.Mth;
 import java.util.List;
 
 public record RayGlowEffect(
-        ARGB primaryColor,
-        ARGB secondaryColor
+        ARGBProvider primaryColor,
+        ARGBProvider secondaryColor
 ) implements TooltipEffect {
 
     public static final ResourceLocation TEXTURE;
@@ -43,13 +43,13 @@ public record RayGlowEffect(
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
 
-        GraphicUtils.setShaderColor(primaryColor);
+        GraphicUtils.setShaderColor(primaryColor.get());
         renderSegment(graphics, x, y, 1f * scale, 0.5f, time);
 
-        GraphicUtils.setShaderColor(primaryColor.lerp(secondaryColor, 0.5f));
+        GraphicUtils.setShaderColor(primaryColor.get().lerp(secondaryColor.get(), 0.5f));
         renderSegment(graphics, x, y, 0.75f * scale, -0.33f, time);
 
-        GraphicUtils.setShaderColor(secondaryColor);
+        GraphicUtils.setShaderColor(secondaryColor.get());
         renderSegment(graphics, x, y, 0.5f * scale, 0.25f, time);
 
         GraphicUtils.resetShaderColor();
@@ -70,8 +70,8 @@ public record RayGlowEffect(
     static {
         TEXTURE = ObscureTooltips.key("textures/gui/effect/ray_glow.png");
         CODEC = RecordCodecBuilder.create(codec -> codec.group(
-                ARGB.CODEC.fieldOf("primary_color").forGetter(RayGlowEffect::primaryColor),
-                ARGB.CODEC.fieldOf("secondary_color").forGetter(RayGlowEffect::secondaryColor)
+                ARGBProvider.CODEC.fieldOf("primary_color").forGetter(RayGlowEffect::primaryColor),
+                ARGBProvider.CODEC.fieldOf("secondary_color").forGetter(RayGlowEffect::secondaryColor)
         ).apply(codec, RayGlowEffect::new));
     }
 }

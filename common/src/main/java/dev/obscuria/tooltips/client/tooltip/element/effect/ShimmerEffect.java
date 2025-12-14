@@ -3,10 +3,10 @@ package dev.obscuria.tooltips.client.tooltip.element.effect;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.obscuria.fragmentum.util.color.ARGB;
 import dev.obscuria.tooltips.client.TooltipHelper;
 import dev.obscuria.tooltips.client.TooltipState;
 import dev.obscuria.tooltips.client.tooltip.particle.GraphicUtils;
+import dev.obscuria.tooltips.config.ARGBProvider;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
 import org.joml.Matrix4f;
@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.function.IntConsumer;
 
 public record ShimmerEffect(
-        ARGB innerColor,
-        ARGB accentColor,
-        ARGB outerColor,
+        ARGBProvider innerColor,
+        ARGBProvider accentColor,
+        ARGBProvider outerColor,
         float frequency,
         float speed
 ) implements TooltipEffect {
@@ -130,24 +130,24 @@ public record ShimmerEffect(
             outer2.set(inner2).lerp(ctrl2, 0.3f + 0.2f * t2);
 
             if (flip) {
-                GraphicUtils.color(buffer.vertex(matrix, inner1.x, inner1.y, 0f), innerColor.lerp(accentColor, t1)).endVertex();
-                GraphicUtils.color(buffer.vertex(matrix, inner2.x, inner2.y, 0f), innerColor.lerp(accentColor, t2)).endVertex();
-                GraphicUtils.color(buffer.vertex(matrix, outer2.x, outer2.y, 0f), outerColor).endVertex();
-                GraphicUtils.color(buffer.vertex(matrix, outer1.x, outer1.y, 0f), outerColor).endVertex();
+                GraphicUtils.color(buffer.vertex(matrix, inner1.x, inner1.y, 0f), innerColor.get().lerp(accentColor.get(), t1)).endVertex();
+                GraphicUtils.color(buffer.vertex(matrix, inner2.x, inner2.y, 0f), innerColor.get().lerp(accentColor.get(), t2)).endVertex();
+                GraphicUtils.color(buffer.vertex(matrix, outer2.x, outer2.y, 0f), outerColor.get()).endVertex();
+                GraphicUtils.color(buffer.vertex(matrix, outer1.x, outer1.y, 0f), outerColor.get()).endVertex();
             } else {
-                GraphicUtils.color(buffer.vertex(matrix, inner2.x, inner2.y, 0f), innerColor.lerp(accentColor, t2)).endVertex();
-                GraphicUtils.color(buffer.vertex(matrix, inner1.x, inner1.y, 0f), innerColor.lerp(accentColor, t1)).endVertex();
-                GraphicUtils.color(buffer.vertex(matrix, outer1.x, outer1.y, 0f), outerColor).endVertex();
-                GraphicUtils.color(buffer.vertex(matrix, outer2.x, outer2.y, 0f), outerColor).endVertex();
+                GraphicUtils.color(buffer.vertex(matrix, inner2.x, inner2.y, 0f), innerColor.get().lerp(accentColor.get(), t2)).endVertex();
+                GraphicUtils.color(buffer.vertex(matrix, inner1.x, inner1.y, 0f), innerColor.get().lerp(accentColor.get(), t1)).endVertex();
+                GraphicUtils.color(buffer.vertex(matrix, outer1.x, outer1.y, 0f), outerColor.get()).endVertex();
+                GraphicUtils.color(buffer.vertex(matrix, outer2.x, outer2.y, 0f), outerColor.get()).endVertex();
             }
         }
     }
 
     static {
         CODEC = RecordCodecBuilder.create(codec -> codec.group(
-                ARGB.CODEC.fieldOf("inner_color").forGetter(ShimmerEffect::innerColor),
-                ARGB.CODEC.fieldOf("accent_color").forGetter(ShimmerEffect::accentColor),
-                ARGB.CODEC.fieldOf("outer_color").forGetter(ShimmerEffect::outerColor),
+                ARGBProvider.CODEC.fieldOf("inner_color").forGetter(ShimmerEffect::innerColor),
+                ARGBProvider.CODEC.fieldOf("accent_color").forGetter(ShimmerEffect::accentColor),
+                ARGBProvider.CODEC.fieldOf("outer_color").forGetter(ShimmerEffect::outerColor),
                 Codec.FLOAT.fieldOf("frequency").forGetter(ShimmerEffect::frequency),
                 Codec.FLOAT.fieldOf("speed").forGetter(ShimmerEffect::speed)
         ).apply(codec, ShimmerEffect::new));

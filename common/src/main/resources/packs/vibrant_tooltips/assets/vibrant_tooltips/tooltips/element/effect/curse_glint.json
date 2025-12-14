@@ -5,7 +5,7 @@
   "clip_rings": true,
   "waves": [
     {
-      "color": "#60fa1693",
+      "color": "@CURSED_GLINT_PRIMARY_WAVE",
       "position": 0.6,
       "thickness": 0.3,
       "inner_alpha": 1.0,
@@ -18,7 +18,7 @@
       "vertical_fade": true
     },
     {
-      "color": "#40fa1679",
+      "color": "@CURSED_GLINT_PRIMARY_WAVE_GLOW",
       "position": 0.6,
       "thickness": 0.3,
       "inner_alpha": 0.0,
@@ -31,7 +31,7 @@
       "vertical_fade": true
     },
     {
-      "color": "#50e23131",
+      "color": "@CURSED_GLINT_SECONDARY_WAVE",
       "position": 0.6,
       "thickness": 0.15,
       "inner_alpha": 1.0,
@@ -44,7 +44,7 @@
       "vertical_fade": false
     },
     {
-      "color": "#30e23131",
+      "color": "@CURSED_GLINT_SECONDARY_WAVE_GLOW",
       "position": 0.6,
       "thickness": 0.15,
       "inner_alpha": 0.0,
@@ -59,7 +59,7 @@
   ],
   "rings": [
     {
-      "color": "#50ffabaa",
+      "color": "@CURSED_GLINT_RING",
       "spin_speed": 0.35,
       "radius": 0.58,
       "thickness": 0.1,

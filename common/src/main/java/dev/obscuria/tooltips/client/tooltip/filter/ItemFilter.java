@@ -16,7 +16,7 @@ public interface ItemFilter {
     boolean test(ItemStack stack);
 
     static void bootstrap(BootstrapContext<Codec<? extends ItemFilter>> context) {
-
+        context.register("config", () -> ConfigFilter.CODEC);
         context.register("always", () -> AlwaysFilter.CODEC);
         context.register("never", () -> NeverFilter.CODEC);
         context.register("all_of", () -> AllOfFilter.CODEC);

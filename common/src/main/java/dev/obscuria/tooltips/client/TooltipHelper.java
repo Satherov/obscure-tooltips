@@ -74,7 +74,7 @@ public interface TooltipHelper {
     }
 
     private static boolean shouldWrap(List<ClientTooltipComponent> components, Font font, int maxWidth) {
-        if (!ClientConfig.AUTO_WRAPPING_ENABLED.get()) return false;
+        if (!ClientConfig.AUTO_WRAP_ENABLED.get()) return false;
         for (var component : components) {
             if (!(component instanceof ClientTextTooltip tooltip)) continue;
             if (tooltip.getWidth(font) <= maxWidth) continue;

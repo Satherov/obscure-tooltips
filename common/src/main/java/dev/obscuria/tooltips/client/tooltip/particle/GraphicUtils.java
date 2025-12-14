@@ -21,7 +21,7 @@ public interface GraphicUtils {
     }
 
     static void drawFrame(GuiGraphics graphics, int x, int y, int width, int height, QuadPalette palette) {
-        drawFrame(graphics, x, y, width, height, palette.topLeft(), palette.topRight(), palette.bottomLeft(), palette.bottomRight());
+        drawFrame(graphics, x, y, width, height, palette.topLeft().get(), palette.topRight().get(), palette.bottomLeft().get(), palette.bottomRight().get());
     }
 
     static void drawFrame(GuiGraphics graphics, int x, int y, int width, int height, ARGB topLeft, ARGB topRight, ARGB bottomLeft, ARGB bottomRight) {
@@ -48,7 +48,7 @@ public interface GraphicUtils {
     }
 
     static void drawRect(GuiGraphics graphics, int x, int y, int width, int height, QuadPalette palette) {
-        drawRect(graphics, RenderType.gui(), x, y, width, height, palette.topLeft(), palette.topRight(), palette.bottomLeft(), palette.bottomRight());
+        drawRect(graphics, RenderType.gui(), x, y, width, height, palette.topLeft().get(), palette.topRight().get(), palette.bottomLeft().get(), palette.bottomRight().get());
     }
 
     static void drawRect(GuiGraphics graphics, RenderType type, int x, int y, int width, int height, ARGB topLeft, ARGB topRight, ARGB bottomLeft, ARGB bottomRight) {

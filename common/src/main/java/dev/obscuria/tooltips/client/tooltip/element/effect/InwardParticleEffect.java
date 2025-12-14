@@ -12,7 +12,9 @@ import org.apache.commons.lang3.RandomUtils;
 
 import java.util.List;
 
-public record InwardParticleEffect(TooltipParticle particle) implements TooltipEffect {
+public record InwardParticleEffect(
+        TooltipParticle particle
+) implements TooltipEffect {
 
     public static final Codec<InwardParticleEffect> CODEC;
 
