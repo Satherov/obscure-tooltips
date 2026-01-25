@@ -3,6 +3,7 @@ package dev.obscuria.tooltips.mixin;
 import dev.obscuria.fragmentum.content.world.tooltip.GroupTooltip;
 import dev.obscuria.tooltips.client.component.StackBuffer;
 import dev.obscuria.tooltips.config.ClientConfig;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -21,6 +22,7 @@ public abstract class MixinItemStack {
         final var self = (ItemStack) (Object) this;
         if (!ClientConfig.ENABLED.get()) return;
         if (ClientConfig.isIgnored(self.getItem())) return;
+        if (self.has(DataComponents.HIDE_TOOLTIP)) return;
         final @Nullable var image = info.getReturnValue().orElse(null);
         final var group = GroupTooltip.maybeGroup(image, new StackBuffer(self));
         info.setReturnValue(Optional.of(group));
