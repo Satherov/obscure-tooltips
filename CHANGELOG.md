@@ -1,2 +1,4 @@
-- Added **42 new configuration options** for customizing built-in styles. This does not replace the extensive customization available through resource packs, but provides an easier way for regular users to fine-tune visuals.
-- Added a new style for **uncommon** rarity items.
+- Added a new **Identifier Filter** that allows filtering ID strings by `contains`/`starts_with`/`ends_with` – useful for bulk style application to materials.
+- Fixed a startup crash related to Vibrant Tooltip hint injection.
+- Fixed a render crash caused by incorrect TooltipState casting.
+- Improved compatibility with mods that modify the tooltip component list before rendering.

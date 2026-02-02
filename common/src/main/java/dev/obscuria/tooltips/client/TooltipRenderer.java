@@ -34,6 +34,7 @@ public final class TooltipRenderer {
         if (!ClientConfig.ENABLED.get()) return false;
         if (components.isEmpty()) return false;
         if (!perform(components)) return false;
+        if (state instanceof EmptyState) return false;
 
         components = new ArrayList<>(components);
         components = layout.rawProcessPreWrap(state, components, font);

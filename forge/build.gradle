@@ -12,18 +12,19 @@ mixin {
 }
 
 dependencies {
-    // Mixin
+    // Mixins
     annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT:processor")
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.5.0"))
     implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.5.0"))
-    // Forge
+    // Dependencies
+    modImplementation("dev.obscuria:fragmentum-forge:1.20.1-${fragmentum_version}")
+    compileOnly project(":common")
+    // Environment
     modRuntimeOnly("curse.maven:emi-580555:6420945")
     modRuntimeOnly("curse.maven:obscure-api-638417:7171906")
     modRuntimeOnly("curse.maven:aquamirae-536254:7165722")
     modRuntimeOnly("curse.maven:configured-457570:5180900")
-    // Common
-    modImplementation("dev.obscuria:fragmentum-forge:1.20.1-${fragmentum_version}")
-    compileOnly project(":common")
+    modRuntimeOnly("maven.modrinth:enchantment-info:aRIaODU2")
 }
 
 legacyForge {

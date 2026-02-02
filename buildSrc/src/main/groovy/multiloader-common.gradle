@@ -50,8 +50,12 @@ repositories {
         }
     }
     maven {
-        name = "Curse Maven"
+        name = "CurseMaven"
         url = "https://cursemaven.com"
+    }
+    maven {
+        name = "ModrinthMaven"
+        url = "https://api.modrinth.com/maven"
     }
     maven {
         name = "TerraFormers MC"

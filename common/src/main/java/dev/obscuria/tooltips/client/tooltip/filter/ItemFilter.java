@@ -28,5 +28,6 @@ public interface ItemFilter {
         context.register("rarity", () -> RarityFilter.CODEC);
         context.register("nbt", () -> NbtFilter.CODEC);
         context.register("property", () -> PropertyFilter.CODEC);
+        context.register("id", () -> IdentifierFilter.CODEC);
     }
 }

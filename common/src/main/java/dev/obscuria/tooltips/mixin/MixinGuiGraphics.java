@@ -15,7 +15,7 @@ import java.util.List;
 @Mixin(GuiGraphics.class)
 public abstract class MixinGuiGraphics {
 
-    @Inject(method = "renderTooltipInternal", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "renderTooltipInternal", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z"), cancellable = true)
     private void renderCustomTooltip(Font font, List<ClientTooltipComponent> components, int mouseX, int mouseY, ClientTooltipPositioner positioner, CallbackInfo info) {
         var self = (GuiGraphics) (Object) this;
         if (TooltipRenderer.render(self, font, components, mouseX, mouseY, positioner)) info.cancel();
