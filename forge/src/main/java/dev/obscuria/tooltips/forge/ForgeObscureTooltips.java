@@ -13,7 +13,9 @@ public class ForgeObscureTooltips {
     public ForgeObscureTooltips() {
         if (FMLEnvironment.dist.isDedicatedServer()) return;
         ObscureTooltips.init();
-        if (Minecraft.getInstance().getResourceManager() instanceof ReloadableResourceManager manager)
+        Minecraft mc = Minecraft.getInstance();
+        if (mc == null) return;
+        if (mc.getResourceManager() instanceof ReloadableResourceManager manager)
             manager.registerReloadListener(TooltipManager.INSTANCE);
     }
 }
